@@ -19,7 +19,9 @@ import common.jdbc.JDBCParameter;
 import common.jdbc.JDBCUtils;
 import lombok.val;
 import lombok.experimental.Accessors;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @Accessors(prefix = "m_", chain = false)
 class Menu {
 	static Menu m_instance;
@@ -117,7 +119,7 @@ class Menu {
 		}
 
 		public void execute() throws Exception {
-			System.out.println(getSheetName());
+			log.info(getSheetName());
 			output();
 		}
 
