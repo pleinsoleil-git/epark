@@ -1,23 +1,22 @@
-package app.takahashi.a00100.job.a00100.export.job.request;
+package app.takahashi.a00100.job.a00100.export.job.request.report;
 
 import java.util.ArrayList;
 import java.util.Collection;
 
-import app.takahashi.a00100.job.a00100.export.job.request.report.Report;
 import lombok.Data;
 import lombok.val;
 import lombok.experimental.Accessors;
 
 @Accessors(prefix = "m_", chain = false)
-public class Request {
-	static Request m_instance;
+public class Report {
+	static Report m_instance;
 	_Current m_current;
 
-	Request() {
+	Report() {
 	}
 
-	public static Request getInstance() {
-		return (m_instance == null ? m_instance = new Request() : m_instance);
+	public static Report getInstance() {
+		return (m_instance == null ? m_instance = new Report() : m_instance);
 	}
 
 	public static _Current getCurrent() {
@@ -45,11 +44,6 @@ public class Request {
 	@Data
 	public static class _Current {
 		public void execute() throws Exception {
-			report();
-		}
-
-		void report() throws Exception {
-			Report.getInstance().execute();
 		}
 	}
 }
