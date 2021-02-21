@@ -182,8 +182,8 @@ class Medical {
 			String sql;
 			sql = "WITH s_params AS\n"
 				+ "(\n"
-					+ "SELECT CAST( ? AS BIGINT ) AS job_id,\n"
-						+ "CAST( ? AS VARCHAR ) AS title\n"
+					+ "SELECT ?::BIGINT AS job_id,\n"
+						+ "?::VARCHAR AS title\n"
 				+ ")\n"
 				+ "SELECT m10.catalog_id AS catalogId,\n"
 					+ "m10.prov_name AS provName,\n"
