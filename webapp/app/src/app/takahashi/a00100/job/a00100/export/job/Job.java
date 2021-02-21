@@ -9,7 +9,9 @@ import common.jdbc.JDBCUtils;
 import lombok.Data;
 import lombok.val;
 import lombok.experimental.Accessors;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @Accessors(prefix = "m_", chain = false)
 public class Job {
 	static Job m_instance;
@@ -53,6 +55,7 @@ public class Job {
 
 		public void execute() throws Exception {
 			request();
+			log.info("Done!!");
 		}
 
 		void request() throws Exception {

@@ -8,6 +8,7 @@ import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.ss.usermodel.WorkbookFactory;
 
 import app.takahashi.a00100.job.a00100.export.job.request.Request;
+import app.takahashi.a00100.job.a00100.export.job.request.report.reserve.Reserve;
 import app.takahashi.a00100.job.a00100.export.job.request.report.top.Top;
 import common.poi.WorkbookUtils;
 import lombok.Data;
@@ -84,6 +85,7 @@ public class Report {
 		}
 
 		void reserve() throws Exception {
+			Reserve.getInstance().execute();
 		}
 
 		void compare() throws Exception {
