@@ -1,6 +1,6 @@
 package app.takahashi.a00100.job.a00100.export;
 
-public class Action extends common.app.job.app.action.Action {
+public class Action extends app.takahashi.a00100.job.common.Action {
 	public Action() {
 		super(new App());
 	}
