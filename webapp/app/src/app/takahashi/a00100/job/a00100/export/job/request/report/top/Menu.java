@@ -52,7 +52,7 @@ class Menu {
 				String sql;
 				sql = "WITH s_params AS\n"
 					+ "(\n"
-						+ "SELECT CAST( ? AS BIGINT ) AS job_id\n"
+						+ "SELECT ?::BIGINT AS job_id\n"
 					+ ")\n"
 					+ "SELECT DISTINCT t30.title\n"
 					+ "FROM s_params AS t10\n"
@@ -167,8 +167,8 @@ class Menu {
 							String sql;
 							sql = "WITH s_params AS\n"
 								+ "(\n"
-									+ "SELECT CAST( ? AS BIGINT ) AS job_id,\n"
-										+ "CAST( ? AS VARCHAR ) AS title\n"
+									+ "SELECT ?::BIGINT AS job_id,\n"
+										+ "?::VARCHAR AS title\n"
 								+ ")\n"
 								+ "SELECT t40.title\n"
 								+ "FROM s_params AS t10\n"
@@ -232,8 +232,8 @@ class Menu {
 			String sql;
 			sql = "WITH s_params AS\n"
 				+ "(\n"
-					+ "SELECT CAST( ? AS BIGINT ) AS job_id,\n"
-						+ "CAST( ? AS VARCHAR ) AS title\n"
+					+ "SELECT ?::BIGINT AS job_id,\n"
+						+ "?::VARCHAR AS title\n"
 				+ ")\n"
 				+ "SELECT m10.catalog_id,\n"
 					+ "m10.prov_name,\n"
