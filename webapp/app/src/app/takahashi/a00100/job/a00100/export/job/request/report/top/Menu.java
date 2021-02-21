@@ -1,6 +1,5 @@
 package app.takahashi.a00100.job.a00100.export.job.request.report.top;
 
-import java.math.BigDecimal;
 import java.sql.Array;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -17,6 +16,7 @@ import app.takahashi.a00100.job.a00100.export.job.Job;
 import app.takahashi.a00100.job.a00100.export.job.request.report.Report;
 import common.jdbc.JDBCParameter;
 import common.jdbc.JDBCUtils;
+import common.poi.CellUtils;
 import lombok.val;
 import lombok.experimental.Accessors;
 import lombok.extern.slf4j.Slf4j;
@@ -148,13 +148,7 @@ class Menu {
 							}
 						} else {
 							val cell = CellUtil.getCell(row, cellNum++);
-							if (x instanceof BigDecimal) {
-								cell.setCellValue(((BigDecimal) x).doubleValue());
-							} else if (x instanceof Long) {
-								cell.setCellValue((Long) x);
-							} else {
-								cell.setCellValue(x.toString());
-							}
+							CellUtils.setCellValue(cell, x);
 						}
 					}
 				}
