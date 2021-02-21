@@ -62,14 +62,14 @@ public class Clinic {
 				int cellNum = 0;
 				String uri = null;
 
-				for (val value : rec) {
+				for (val x : rec) {
 					if (cellNum == 0) {
 						uri = "https://haisha-yoyaku.jp/bun2sdental/detail/index/id/"
-								+ value.toString();
+								+ x.toString();
 					}
 
 					val cell = CellUtil.getCell(row, cellNum++);
-					CellUtils.setCellValue(cell, value);
+					CellUtils.setCellValue(cell, x);
 				}
 
 				val cell = CellUtil.getCell(row, cellNum++);
