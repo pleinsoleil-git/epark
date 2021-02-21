@@ -1,4 +1,4 @@
-package app.takahashi.a00100.job.common;
+package app.takahashi.a00100.job.common.app;
 
 import common.lang.StringUtils;
 import lombok.val;
