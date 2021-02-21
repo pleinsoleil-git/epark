@@ -22,5 +22,6 @@ public class Model extends app.takahashi.a00100.job.common.app.Model {
 	}
 
 	void job() throws Exception {
+		System.out.println("aaaaaaaaaaaaaaaaa");
 	}
 }
