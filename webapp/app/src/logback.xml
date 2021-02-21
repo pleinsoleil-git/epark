@@ -25,9 +25,30 @@
 		</encoder>
 	</appender>
 
+	<appender name="TAKAHASHI" class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<file>${catalina.home}/logs/epark#takahashi.log</file>
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<!-- daily rollover -->
+			<fileNamePattern>${catalina.home}/logs/archive/epark#takahashi.%d{yyyy-MM-dd}.log</fileNamePattern>
+
+			<!-- keep 30 days' worth of history capped at 10MB total size -->
+			<maxHistory>30</maxHistory>
+			<totalSizeCap>100MB</totalSizeCap>
+		</rollingPolicy>
+		<encoder>
+			<charset>UTF-8</charset>
+			<pattern>%-50(%d{HH:mm:ss.SSS} [%thread]) %-5level %logger{100} - %msg%n</pattern>
+		</encoder>
+	</appender>
+
 	<logger name="common" level="DEBUG">
 		<appender-ref ref="STDOUT" />
 		<appender-ref ref="COMMON" />
+	</logger>
+
+	<logger name="app.takahashi" level="DEBUG">
+		<appender-ref ref="STDOUT" />
+		<appender-ref ref="TAKAHASHI" />
 	</logger>
 
 </configuration>
