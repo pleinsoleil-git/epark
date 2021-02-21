@@ -8,6 +8,7 @@ import org.quartz.JobExecutionException;
 import common.app.App;
 import common.app.job.app.model.Model;
 import lombok.Getter;
+import lombok.val;
 import lombok.experimental.Accessors;
 import lombok.extern.slf4j.Slf4j;
 
