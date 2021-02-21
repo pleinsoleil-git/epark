@@ -74,7 +74,10 @@
 				<Valve className="org.apache.catalina.valves.AccessLogValve" directory="logs" pattern="%h %l %u %t &quot;%r&quot; %s %b"
 					prefix="localhost_access_log" suffix=".txt" />
 
-				<Context docBase="app" path="/app" reloadable="false" source="org.eclipse.jst.jee.server:app">
+				<Context docBase="app" path="/epark" reloadable="false" source="org.eclipse.jst.jee.server:app">
+					<Resource name="jdbc/takahashi/a00100/default" username="postgres" password="a" maxIdle="0" maxTotal="100" maxWaitMillis="10000"
+						type="javax.sql.DataSource" auth="Container" driverClassName="org.postgresql.Driver"
+						url="jdbc:postgresql://localhost:5432/epark?currentSchema=takahashi" />
 				</Context>
 			</Host>
 		</Engine>
