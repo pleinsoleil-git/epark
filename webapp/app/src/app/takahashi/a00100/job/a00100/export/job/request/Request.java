@@ -1,5 +1,6 @@
 package app.takahashi.a00100.job.a00100.export.job.request;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Collection;
 
@@ -37,13 +38,19 @@ public class Request {
 	Collection<_Current> query() throws Exception {
 		return new ArrayList<_Current>() {
 			{
-				add(new _Current());
+				add(new _Current() {
+					{
+						m_outputPath = new File("D:/Temp", "a.xlsx").getPath();
+					}
+				});
 			}
 		};
 	}
 
 	@Data
 	public static class _Current {
+		String m_outputPath;
+
 		public void execute() throws Exception {
 			report();
 		}
