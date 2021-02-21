@@ -1,7 +1,7 @@
 package app.takahashi.a00100.job.a00100.export;
 
-import common.app.job.app.bean.Bean;
-import common.app.job.app.model.Model;
+import app.takahashi.a00100.job.common.Bean;
+import app.takahashi.a00100.job.common.Model;
 
 public class App extends app.takahashi.a00100.job.common.App {
 	public App() {

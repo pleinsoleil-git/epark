@@ -1,9 +1,6 @@
 package app.takahashi.a00100.job.common;
 
-import common.app.job.app.bean.Bean;
-import common.app.job.app.model.Model;
-
-public class App extends common.app.App {
+public class App extends app.takahashi.a00100.App {
 	public App(final Bean bean, final Model model) {
 		super(bean, model);
 	}
