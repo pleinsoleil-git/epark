@@ -1,11 +1,11 @@
-package app.takahashi.a00100.job.a00100.export;
+package app.takahashi.a00100.job.common;
 
 import common.app.job.app.bean.Bean;
 import common.app.job.app.model.Model;
 
-public class App extends app.takahashi.a00100.job.common.App {
-	public App() {
-		super(new Bean(), new Model());
+public class App extends common.app.App {
+	public App(final Bean bean, final Model model) {
+		super(bean, model);
 	}
 
 	@Override
