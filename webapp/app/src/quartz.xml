@@ -7,7 +7,7 @@
 		<job>
 			<name>test</name>
 			<description>テスト</description>
-			<job-class>app.takahashi.app.job.app.a00100.test.Action</job-class>
+			<job-class>app.takahashi.a00100.job.a00100.export.Action</job-class>
 		</job>
 		<trigger>
 			<simple>
