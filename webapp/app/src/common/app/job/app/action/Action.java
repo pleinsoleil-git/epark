@@ -8,7 +8,6 @@ import org.quartz.JobExecutionException;
 import common.app.App;
 import common.app.job.app.model.Model;
 import lombok.Getter;
-import lombok.val;
 import lombok.experimental.Accessors;
 import lombok.extern.slf4j.Slf4j;
 
@@ -24,8 +23,6 @@ public class Action implements org.quartz.Job {
 
 	@Override
 	public void execute(final JobExecutionContext context) throws JobExecutionException {
-System.out.println("aaaaaaaaa");
-
 		new Thread() {
 			@Override
 			public void run() {
