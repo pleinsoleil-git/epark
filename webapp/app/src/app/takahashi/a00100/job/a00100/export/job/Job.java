@@ -4,6 +4,7 @@ import java.util.Collection;
 
 import org.apache.commons.dbutils.handlers.BeanListHandler;
 
+import app.takahashi.a00100.job.a00100.export.job.request.Request;
 import common.jdbc.JDBCUtils;
 import lombok.Data;
 import lombok.val;
@@ -51,7 +52,11 @@ public class Job {
 		Long m_id;
 
 		public void execute() throws Exception {
-			System.out.println(m_id);
+			request();
+		}
+
+		void request() throws Exception {
+			Request.getInstance().execute();
 		}
 	}
 }
