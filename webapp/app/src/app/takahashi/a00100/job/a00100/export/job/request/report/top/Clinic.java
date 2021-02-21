@@ -1,6 +1,5 @@
 package app.takahashi.a00100.job.a00100.export.job.request.report.top;
 
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Collection;
 
@@ -11,6 +10,7 @@ import app.takahashi.a00100.job.a00100.export.job.Job;
 import app.takahashi.a00100.job.a00100.export.job.request.report.Report;
 import common.jdbc.JDBCParameter;
 import common.jdbc.JDBCUtils;
+import common.poi.CellUtils;
 import lombok.val;
 import lombok.experimental.Accessors;
 
@@ -62,22 +62,14 @@ public class Clinic {
 				int cellNum = 0;
 				String uri = null;
 
-				for (val x : rec) {
+				for (val value : rec) {
 					if (cellNum == 0) {
 						uri = "https://haisha-yoyaku.jp/bun2sdental/detail/index/id/"
-								+ x.toString();
+								+ value.toString();
 					}
 
 					val cell = CellUtil.getCell(row, cellNum++);
-					if (x != null) {
-						if (x instanceof BigDecimal) {
-							cell.setCellValue(((BigDecimal) x).doubleValue());
-						} else if (x instanceof Long) {
-							cell.setCellValue(((Long) x));
-						} else {
-							cell.setCellValue(x.toString());
-						}
-					}
+					CellUtils.setCellValue(cell, value);
 				}
 
 				val cell = CellUtil.getCell(row, cellNum++);
