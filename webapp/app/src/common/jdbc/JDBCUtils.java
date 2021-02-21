@@ -52,87 +52,87 @@ public class JDBCUtils {
 		rollback(getConnection());
 	}
 
-	public static List<Object[]> query(final Connection conn, final String sql, final ArrayListHandler rs)
+	public static List<Object[]> query(final Connection conn, final String sql, final ArrayListHandler rsh)
 			throws Exception {
-		return (new QueryRunner()).query(conn, sql, rs);
+		return (new QueryRunner()).query(conn, sql, rsh);
 	}
 
-	public static List<Object[]> query(final JDBCConnection conn, final String sql, final ArrayListHandler rs)
+	public static List<Object[]> query(final JDBCConnection conn, final String sql, final ArrayListHandler rsh)
 			throws Exception {
-		return query(conn.getConnection(), sql, rs);
+		return query(conn.getConnection(), sql, rsh);
 	}
 
-	public static List<Object[]> query(final String sql, final ArrayListHandler rs) throws Exception {
-		return query(getConnection(), sql, rs);
+	public static List<Object[]> query(final String sql, final ArrayListHandler rsh) throws Exception {
+		return query(getConnection(), sql, rsh);
 	}
 
-	public static List<Object[]> query(final Connection conn, final String sql, final ArrayListHandler rs, final Collection<Object> params)
+	public static List<Object[]> query(final Connection conn, final String sql, final ArrayListHandler rsh, final Collection<Object> params)
 			throws Exception {
-		return (new QueryRunner()).query(conn, sql, rs, params.toArray());
+		return (new QueryRunner()).query(conn, sql, rsh, params.toArray());
 	}
 
-	public static List<Object[]> query(final JDBCConnection conn, final String sql, final ArrayListHandler rs, final Collection<Object> params)
+	public static List<Object[]> query(final JDBCConnection conn, final String sql, final ArrayListHandler rsh, final Collection<Object> params)
 			throws Exception {
-		return query(conn.getConnection(), sql, rs, params);
+		return query(conn.getConnection(), sql, rsh, params);
 	}
 
-	public static List<Object[]> query(final String sql, final ArrayListHandler rs, final Collection<Object> params)
+	public static List<Object[]> query(final String sql, final ArrayListHandler rsh, final Collection<Object> params)
 			throws Exception {
-		return query(getConnection(), sql, rs, params);
+		return query(getConnection(), sql, rsh, params);
 	}
 
-	public static <T> List<T> query(final Connection conn, final String sql, final BeanListHandler<T> rs)
+	public static <T> List<T> query(final Connection conn, final String sql, final BeanListHandler<T> rsh)
 			throws Exception {
-		return (new QueryRunner()).query(conn, sql, rs);
+		return (new QueryRunner()).query(conn, sql, rsh);
 	}
 
-	public static <T> List<T> query(final JDBCConnection conn, final String sql, final BeanListHandler<T> rs)
+	public static <T> List<T> query(final JDBCConnection conn, final String sql, final BeanListHandler<T> rsh)
 			throws Exception {
-		return query(conn.getConnection(), sql, rs);
+		return query(conn.getConnection(), sql, rsh);
 	}
 
-	public static <T> List<T> query(final String sql, final BeanListHandler<T> rs) throws Exception {
-		return query(getConnection(), sql, rs);
+	public static <T> List<T> query(final String sql, final BeanListHandler<T> rsh) throws Exception {
+		return query(getConnection(), sql, rsh);
 	}
 
-	public static <T> List<T> query(final Connection conn, final String sql, final BeanListHandler<T> rs, final Collection<Object> params)
+	public static <T> List<T> query(final Connection conn, final String sql, final BeanListHandler<T> rsh, final Collection<Object> params)
 			throws Exception {
-		return (new QueryRunner()).query(conn, sql, rs, params.toArray());
+		return (new QueryRunner()).query(conn, sql, rsh, params.toArray());
 	}
 
-	public static <T> List<T> query(final JDBCConnection conn, final String sql, final BeanListHandler<T> rs, final Collection<Object> params)
+	public static <T> List<T> query(final JDBCConnection conn, final String sql, final BeanListHandler<T> rsh, final Collection<Object> params)
 			throws Exception {
-		return query(conn.getConnection(), sql, rs, params);
+		return query(conn.getConnection(), sql, rsh, params);
 	}
 
-	public static <T> List<T> query(final String sql, final BeanListHandler<T> rs, final Collection<Object> params) throws Exception {
-		return query(getConnection(), sql, rs, params);
+	public static <T> List<T> query(final String sql, final BeanListHandler<T> rsh, final Collection<Object> params) throws Exception {
+		return query(getConnection(), sql, rsh, params);
 	}
 
-	public static <T> T query(final Connection conn, final String sql, final ResultSetHandler<T> rs) throws Exception {
-		return (new QueryRunner()).query(conn, sql, rs);
+	public static <T> T query(final Connection conn, final String sql, final ResultSetHandler<T> rsh) throws Exception {
+		return (new QueryRunner()).query(conn, sql, rsh);
 	}
 
-	public static <T> T query(final JDBCConnection conn, final String sql, final ResultSetHandler<T> rs) throws Exception {
-		return query(conn.getConnection(), sql, rs);
+	public static <T> T query(final JDBCConnection conn, final String sql, final ResultSetHandler<T> rsh) throws Exception {
+		return query(conn.getConnection(), sql, rsh);
 	}
 
-	public static <T> T query(final String sql, final ResultSetHandler<T> rs) throws Exception {
-		return query(getConnection(), sql, rs);
+	public static <T> T query(final String sql, final ResultSetHandler<T> rsh) throws Exception {
+		return query(getConnection(), sql, rsh);
 	}
 
-	public static <T> T query(final Connection conn, final String sql, final ResultSetHandler<T> rs, final Collection<Object> params)
+	public static <T> T query(final Connection conn, final String sql, final ResultSetHandler<T> rsh, final Collection<Object> params)
 			throws Exception {
-		return (new QueryRunner()).query(conn, sql, rs, params.toArray());
+		return (new QueryRunner()).query(conn, sql, rsh, params.toArray());
 	}
 
-	public static <T> T query(final JDBCConnection conn, final String sql, final ResultSetHandler<T> rs, final Collection<Object> params)
+	public static <T> T query(final JDBCConnection conn, final String sql, final ResultSetHandler<T> rsh, final Collection<Object> params)
 			throws Exception {
-		return query(conn.getConnection(), sql, rs, params);
+		return query(conn.getConnection(), sql, rsh, params);
 	}
 
-	public static <T> T query(final String sql, final ResultSetHandler<T> rs, final Collection<Object> params) throws Exception {
-		return query(getConnection(), sql, rs, params);
+	public static <T> T query(final String sql, final ResultSetHandler<T> rsh, final Collection<Object> params) throws Exception {
+		return query(getConnection(), sql, rsh, params);
 	}
 
 	public static int execute(final Connection conn, final String sql) throws Exception {
