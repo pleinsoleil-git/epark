@@ -8,6 +8,7 @@ import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.ss.usermodel.WorkbookFactory;
 
 import app.takahashi.a00100.job.a00100.export.job.request.Request;
+import app.takahashi.a00100.job.a00100.export.job.request.report.top.Top;
 import common.poi.WorkbookUtils;
 import lombok.Data;
 import lombok.val;
@@ -71,8 +72,21 @@ public class Report {
 
 		void output() throws Exception {
 			try (val book = getBook()) {
+				top();
+				reserve();
+				compare();
 				WorkbookUtils.save(book, new File(Request.getCurrent().getOutputPath()));
 			}
+		}
+
+		void top() throws Exception {
+			Top.getInstance().execute();
+		}
+
+		void reserve() throws Exception {
+		}
+
+		void compare() throws Exception {
 		}
 	}
 }
