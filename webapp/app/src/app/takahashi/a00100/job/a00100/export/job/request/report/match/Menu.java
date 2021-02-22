@@ -13,9 +13,12 @@ import app.takahashi.a00100.job.a00100.export.job.request.report.Report;
 import common.jdbc.JDBCParameter;
 import common.jdbc.JDBCUtils;
 import common.poi.CellUtils;
+import lombok.Data;
 import lombok.val;
 import lombok.experimental.Accessors;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @Accessors(prefix = "m_", chain = false)
 public class Menu {
 	static Menu m_instance;
@@ -45,18 +48,26 @@ public class Menu {
 	Collection<_Current> query() throws Exception {
 		return new ArrayList<_Current>() {
 			{
-				add(new _Current());
+				add(new _Current() {
+					{
+						m_sheetName = "メニュー一致率";
+					}
+				});
 			}
 		};
 	}
 
+	@Data
 	public static class _Current {
+		String m_sheetName;
+
 		public void execute() throws Exception {
+			log.info(getSheetName());
 			output();
 		}
 
 		void output() throws Exception {
-			val sheet = Report.getCurrent().getBook().getSheet("メニュー一致率");
+			val sheet = Report.getCurrent().getBook().getSheet(getSheetName());
 			val styles = new HashMap<Integer, CellStyle>() {
 				{
 					for (val cell : sheet.getRow(1)) {
