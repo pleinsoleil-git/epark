@@ -1,5 +1,6 @@
 package app.takahashi.a00100.job.a00100.export.job.request.report.compare;
 
+import java.math.BigDecimal;
 import java.sql.Array;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -82,6 +83,9 @@ class Menu {
 		Long m_reserveCount;
 		Array m_topTitle;
 		Array m_reserveTitle;
+		Long m_ss;
+		Long m_cv;
+		BigDecimal m_cvr;
 	}
 
 	static class _Current {
@@ -148,6 +152,15 @@ class Menu {
 				CellUtil.getCell(rows[0], cellNums[0]++).setCellValue(rec.getStationCount());
 				cellNums[1]++;
 
+				CellUtil.getCell(rows[0], cellNums[0]++).setCellValue(rec.getSs());
+				cellNums[1]++;
+
+				CellUtil.getCell(rows[0], cellNums[0]++).setCellValue(rec.getCv());
+				cellNums[1]++;
+
+				CellUtil.getCell(rows[0], cellNums[0]++).setCellValue(rec.getCvr().doubleValue());
+				cellNums[1]++;
+
 				CellUtil.getCell(rows[0], cellNums[0]++).setCellValue(rec.getTopCount());
 				CellUtil.getCell(rows[1], cellNums[1]++).setCellValue(rec.getReserveCount());
 
@@ -204,6 +217,9 @@ class Menu {
 						+ "(\n"
 							+ "PARTITION BY m10.prov_name, m10.city, m10.station1\n"
 						+ ") AS stationCount,\n"
+					+ "m10.detail_ss::NUMERIC AS ss,\n"
+					+ "m10.cv,\n"
+					+ "m10.cvr,\n"
 					+ "t10.title_count AS topCount,\n"
 					+ "t10.title AS topTitle,\n"
 					+ "t20.title_count AS reserveCount,\n"
