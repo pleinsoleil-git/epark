@@ -48,7 +48,7 @@ public class WebBrowser implements AutoCloseable {
 		@Override
 		public void close() throws Exception {
 			if (m_driver != null) {
-				m_driver.quit();
+				//m_driver.quit();
 			}
 		}
 	}
