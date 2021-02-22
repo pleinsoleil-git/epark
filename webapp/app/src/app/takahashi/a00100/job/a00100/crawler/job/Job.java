@@ -4,7 +4,7 @@ import java.util.Collection;
 
 import org.apache.commons.dbutils.handlers.BeanListHandler;
 
-import app.takahashi.a00100.job.a00100.export.job.request.Request;
+import app.takahashi.a00100.job.a00100.crawler.job.request.Request;
 import common.jdbc.JDBCUtils;
 import lombok.Data;
 import lombok.val;
