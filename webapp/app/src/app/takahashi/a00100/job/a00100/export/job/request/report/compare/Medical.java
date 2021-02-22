@@ -53,7 +53,7 @@ class Medical {
 				val book = Report.getCurrent().getBook();
 
 				for (val name : new String[] {
-						"比較（診療）",
+						"メニュー比較（診療）",
 				}) {
 					val sheet = book.getSheet(name);
 

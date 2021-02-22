@@ -3,12 +3,14 @@ package app.takahashi.a00100.job.a00100.export.job.request.report.reserve;
 import java.sql.Array;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
 import org.apache.commons.dbutils.QueryRunner;
 import org.apache.commons.dbutils.handlers.ArrayListHandler;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.poi.ss.usermodel.CellStyle;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.util.CellUtil;
 
@@ -94,10 +96,25 @@ class Medical {
 		void output() throws Exception {
 			val sheet = getSheet();
 			val header = getHeader();
+			val styles = new HashMap<Integer, CellStyle>() {
+				{
+					for (val cell : sheet.getRow(1)) {
+						val style = cell.getCellStyle();
+						if (style != null) {
+							put(cell.getColumnIndex(), style);
+						}
+					}
+				}
+			}.entrySet();
 			int rowNum = 1;
 
 			for (val rec : query()) {
 				val row = CellUtil.getRow(rowNum++, sheet);
+				for (val style : styles) {
+					val cell = CellUtils.getCell(row, style.getKey());
+					cell.setCellStyle(style.getValue());
+				}
+
 				int cellNum = 0;
 
 				for (val x : rec) {
