@@ -4,8 +4,14 @@ import java.math.BigDecimal;
 import java.util.Date;
 
 import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.util.CellUtil;
 
 public class CellUtils {
+	public static Cell getCell(final Row row, final int columnIndex) {
+		return CellUtil.getCell(row, columnIndex);
+	}
+
 	public static void setCellValue(final Cell cell, final Object value) throws Exception {
 		if (value != null) {
 			if (value instanceof BigDecimal) {

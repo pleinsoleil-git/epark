@@ -2,8 +2,10 @@ package app.takahashi.a00100.job.a00100.export.job.request.report.top;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 
 import org.apache.commons.dbutils.handlers.ArrayListHandler;
+import org.apache.poi.ss.usermodel.CellStyle;
 import org.apache.poi.ss.util.CellUtil;
 
 import app.takahashi.a00100.job.a00100.export.job.Job;
@@ -55,10 +57,25 @@ public class Clinic {
 
 		void output() throws Exception {
 			val sheet = Report.getCurrent().getBook().getSheet("医院");
+			val styles = new HashMap<Integer, CellStyle>() {
+				{
+					for (val cell : sheet.getRow(1)) {
+						val style = cell.getCellStyle();
+						if (style != null) {
+							put(cell.getColumnIndex(), style);
+						}
+					}
+				}
+			}.entrySet();
 			int rowNum = 1;
 
 			for (val rec : query()) {
 				val row = CellUtil.getRow(rowNum++, sheet);
+				for (val style : styles) {
+					val cell = CellUtils.getCell(row, style.getKey());
+					cell.setCellStyle(style.getValue());
+				}
+
 				int cellNum = 0;
 				String uri = null;
 
