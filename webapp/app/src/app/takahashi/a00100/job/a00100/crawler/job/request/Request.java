@@ -5,14 +5,14 @@ import java.util.Collection;
 import org.apache.commons.dbutils.handlers.BeanListHandler;
 
 import app.takahashi.a00100.job.a00100.crawler.job.Job;
+import app.takahashi.a00100.job.a00100.crawler.job.request.crawler.Crawler;
+import common.app.job.app.JobStatus;
 import common.jdbc.JDBCParameter;
 import common.jdbc.JDBCUtils;
 import lombok.Data;
 import lombok.val;
 import lombok.experimental.Accessors;
-import lombok.extern.slf4j.Slf4j;
 
-@Slf4j
 @Accessors(prefix = "m_", chain = false)
 public class Request {
 	static Request m_instance;
@@ -73,13 +73,27 @@ public class Request {
 	@Data
 	public static class _Current {
 		Long m_id;
+		String m_catalogId;
+		String m_shopownerId;
+		Status m_status;
 
-		public void execute() throws Exception {
-			request();
-			log.info("Done!!");
+		Status getStatus() {
+			return (m_status == null ? m_status = new Status() : m_status);
 		}
 
-		void request() throws Exception {
+		public void execute() throws Exception {
+			try (val status = getStatus()) {
+				try {
+					crawler();
+				} catch (Exception e) {
+					status.setStatus(JobStatus.FAILD);
+					status.setMessage(e.getMessage());
+				}
+			}
+		}
+
+		void crawler() throws Exception {
+			Crawler.getInstance().execute();
 		}
 	}
 }

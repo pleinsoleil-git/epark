@@ -1,5 +1,6 @@
 package app.takahashi.a00100.job.a00100.crawler.job.request;
 
+import common.app.job.app.JobStatus;
 import common.jdbc.JDBCParameter;
 import common.jdbc.JDBCUtils;
 import lombok.Data;
@@ -9,7 +10,7 @@ import lombok.experimental.Accessors;
 @Data
 @Accessors(prefix = "m_", chain = false)
 class Status implements AutoCloseable {
-	Long m_status;
+	JobStatus m_status;
 	String m_message;
 
 	@Override
@@ -35,7 +36,7 @@ class Status implements AutoCloseable {
 		val params = new JDBCParameter() {
 			{
 				add(Request.getCurrent().getId());
-				add(getStatus());
+				add(getStatus().ordinal());
 				add(getMessage());
 			}
 		};
