@@ -6,7 +6,6 @@ import java.util.Collection;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-import org.apache.commons.dbutils.QueryRunner;
 import org.apache.commons.dbutils.handlers.ArrayListHandler;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.poi.ss.usermodel.Sheet;
@@ -158,68 +157,64 @@ class Menu {
 		Map<String, Integer> getHeader() throws Exception {
 			return new LinkedHashMap<String, Integer>() {
 				{
-					new QueryRunner() {
+					String sql;
+					sql = "WITH s_params AS\n"
+						+ "(\n"
+							+ "SELECT ?::BIGINT AS job_id,\n"
+								+ "?::VARCHAR AS title\n"
+						+ ")\n"
+						+ "SELECT t40.title\n"
+						+ "FROM s_params AS t10\n"
+						+ "INNER JOIN j_job AS j10\n"
+							+ "ON j10.id = t10.job_id\n"
+						+ "INNER JOIN j_request AS j20\n"
+							+ "ON j20.foreign_id = j10.id\n"
+							+ "AND j20.deleted = FALSE\n"
+						+ "INNER JOIN m_clinic AS m10\n"
+							+ "ON m10.foreign_id = j10.id\n"
+							+ "AND m10.catalog_id = j20.catalog_id\n"
+						+ "INNER JOIN t_clinic AS t20\n"
+							+ "ON t20.foreign_id = j10.id\n"
+							+ "AND t20.catalog_id = j20.catalog_id\n"
+						+ "INNER JOIN t_top_menu AS t30\n"
+							+ "ON t30.foreign_id = t20.id\n"
+							+ "AND t30.title = t10.title\n"
+						+ "INNER JOIN t_top_menu_item AS t40\n"
+							+ "ON t40.foreign_id = t30.id\n"
+						+ "GROUP BY 1\n"
+						+ "ORDER BY COUNT( t40.title ) DESC,\n"
+							+ "1\n";
+
+					val sheet = getSheet();
+					val params = new JDBCParameter() {
 						{
-							String sql;
-							sql = "WITH s_params AS\n"
-								+ "(\n"
-									+ "SELECT ?::BIGINT AS job_id,\n"
-										+ "?::VARCHAR AS title\n"
-								+ ")\n"
-								+ "SELECT t40.title\n"
-								+ "FROM s_params AS t10\n"
-								+ "INNER JOIN j_job AS j10\n"
-									+ "ON j10.id = t10.job_id\n"
-								+ "INNER JOIN j_request AS j20\n"
-									+ "ON j20.foreign_id = j10.id\n"
-									+ "AND j20.deleted = FALSE\n"
-								+ "INNER JOIN m_clinic AS m10\n"
-									+ "ON m10.foreign_id = j10.id\n"
-									+ "AND m10.catalog_id = j20.catalog_id\n"
-								+ "INNER JOIN t_clinic AS t20\n"
-									+ "ON t20.foreign_id = j10.id\n"
-									+ "AND t20.catalog_id = j20.catalog_id\n"
-								+ "INNER JOIN t_top_menu AS t30\n"
-									+ "ON t30.foreign_id = t20.id\n"
-									+ "AND t30.title = t10.title\n"
-								+ "INNER JOIN t_top_menu_item AS t40\n"
-									+ "ON t40.foreign_id = t30.id\n"
-								+ "GROUP BY 1\n"
-								+ "ORDER BY COUNT( t40.title ) DESC,\n"
-									+ "1\n";
-
-							val sheet = getSheet();
-							val params = new JDBCParameter() {
-								{
-									val job = Job.getCurrent();
-									add(job.getId());
-									add(sheet.getSheetName());
-								}
-							};
-
-							val row = CellUtil.getRow(0, sheet);
-							int cellNum;
-
-							for (cellNum = 0;; cellNum++) {
-								val cell = CellUtil.getCell(row, cellNum);
-								if (StringUtils.isEmpty(cell.getStringCellValue()) == true) {
-									break;
-								}
-							}
-
-							val rsh = new ArrayListHandler();
-
-							for (val rec : JDBCUtils.query(sql, rsh, params)) {
-								val value = rec[0].toString();
-
-								if (StringUtils.isNotEmpty(value) == true) {
-									val cell = CellUtil.getCell(row, cellNum++);
-									cell.setCellValue(value);
-									put(value, cell.getColumnIndex());
-								}
-							}
+							val job = Job.getCurrent();
+							add(job.getId());
+							add(sheet.getSheetName());
 						}
 					};
+
+					val row = CellUtil.getRow(0, sheet);
+					int cellNum;
+
+					for (cellNum = 0;; cellNum++) {
+						val cell = CellUtil.getCell(row, cellNum);
+						if (StringUtils.isEmpty(cell.getStringCellValue()) == true) {
+							break;
+						}
+					}
+
+					val rsh = new ArrayListHandler();
+
+					for (val rec : JDBCUtils.query(sql, rsh, params)) {
+						val value = rec[0].toString();
+
+						if (StringUtils.isNotEmpty(value) == true) {
+							val cell = CellUtil.getCell(row, cellNum++);
+							cell.setCellValue(value);
+							put(value, cell.getColumnIndex());
+						}
+					}
 				}
 			};
 		}
