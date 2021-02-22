@@ -5,6 +5,7 @@ import java.io.File;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 
+import common.webDriver.ChromeWebDriver;
 import lombok.val;
 import lombok.experimental.Accessors;
 
@@ -19,8 +20,7 @@ public class WebBrowser implements AutoCloseable {
 	public static WebBrowser getInstance() {
 		return (m_instance == null ? m_instance = new WebBrowser() {
 			{
-				// val file = new File(System.getProperty("catalina.home"), "/lib/chromedriver.88.exe");
-				val file = new File("C:/Program Files/Pleiades/2019/workspace/epark/test/driver/chromedriver.88.exe");
+				val file = new File(System.getProperty("catalina.home"), ChromeWebDriver.V88);
 				System.setProperty("webdriver.chrome.driver", file.getPath());
 			}
 		} : m_instance);
@@ -48,7 +48,7 @@ public class WebBrowser implements AutoCloseable {
 		@Override
 		public void close() throws Exception {
 			if (m_driver != null) {
-				// m_driver.quit();
+				m_driver.quit();
 			}
 		}
 	}
