@@ -98,5 +98,10 @@
 			<artifactId>commons-dbutils</artifactId>
 			<version>1.7</version>
 		</dependency>
+		<dependency>
+			<groupId>org.webjars.bowergithub.handsontable</groupId>
+			<artifactId>handsontable</artifactId>
+			<version>6.2.2</version>
+		</dependency>
 	</dependencies>
 </project>
