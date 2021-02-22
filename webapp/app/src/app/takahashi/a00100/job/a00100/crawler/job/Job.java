@@ -30,11 +30,24 @@ public class Job {
 
 	public void execute() throws Exception {
 		try {
+			delete();
+
 			for (val x : query()) {
 				(m_current = x).execute();
 			}
 		} finally {
 			m_instance = null;
+		}
+	}
+
+	void delete() throws Exception {
+		for (val x : new String[] {
+				"j_request_status",
+				"t_clinic",
+		}) {
+			log.info(String.format("Delete %s", x));
+			JDBCUtils.execute(String.format("TRUNCATE TABLE %s CASCADE", x));
+			JDBCUtils.commit();
 		}
 	}
 
