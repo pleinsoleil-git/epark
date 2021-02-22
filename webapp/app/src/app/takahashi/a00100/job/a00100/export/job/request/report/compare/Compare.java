@@ -42,11 +42,11 @@ public class Compare {
 
 	public static class _Current {
 		public void execute() throws Exception {
-			medical();
+			menu();
 		}
 
-		void medical() throws Exception {
-			Medical.getInstance().execute();
+		void menu() throws Exception {
+			Menu.getInstance().execute();
 		}
 	}
 }

@@ -22,15 +22,15 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @Accessors(prefix = "m_", chain = false)
-class Medical {
-	static Medical m_instance;
+class Menu {
+	static Menu m_instance;
 	_Current m_current;
 
-	Medical() {
+	Menu() {
 	}
 
-	public static Medical getInstance() {
-		return (m_instance == null ? m_instance = new Medical() : m_instance);
+	public static Menu getInstance() {
+		return (m_instance == null ? m_instance = new Menu() : m_instance);
 	}
 
 	public static _Current getCurrent() {
