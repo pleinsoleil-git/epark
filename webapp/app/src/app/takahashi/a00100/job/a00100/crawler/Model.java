@@ -1,6 +1,6 @@
 package app.takahashi.a00100.job.a00100.crawler;
 
-import app.takahashi.a00100.job.a00100.export.job.Job;
+import app.takahashi.a00100.job.a00100.crawler.job.Job;
 import lombok.experimental.Accessors;
 
 @Accessors(prefix = "m_", chain = false)
@@ -11,6 +11,7 @@ public class Model extends app.takahashi.a00100.job.common.app.Model {
 	public void execute() throws Exception {
 		if (isExecutable() == true) {
 			try {
+				job();
 			} finally {
 				m_executing = false;
 			}
