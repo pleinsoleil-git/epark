@@ -77,7 +77,7 @@
 				<Context docBase="app" path="/epark" reloadable="false" source="org.eclipse.jst.jee.server:app">
 					<Resource name="jdbc/takahashi/a00100/default" username="postgres" password="a" maxIdle="0" maxTotal="100" maxWaitMillis="10000"
 						type="javax.sql.DataSource" auth="Container" driverClassName="org.postgresql.Driver"
-						url="jdbc:postgresql://localhost:5432/epark3?currentSchema=takahashi" />
+						url="jdbc:postgresql://localhost:5432/epark?currentSchema=test" />
 				</Context>
 			</Host>
 		</Engine>
