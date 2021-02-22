@@ -9,6 +9,7 @@ import org.apache.poi.ss.usermodel.WorkbookFactory;
 
 import app.takahashi.a00100.job.a00100.export.job.request.Request;
 import app.takahashi.a00100.job.a00100.export.job.request.report.compare.Compare;
+import app.takahashi.a00100.job.a00100.export.job.request.report.match.Match;
 import app.takahashi.a00100.job.a00100.export.job.request.report.reserve.Reserve;
 import app.takahashi.a00100.job.a00100.export.job.request.report.top.Top;
 import common.poi.WorkbookUtils;
@@ -77,6 +78,7 @@ public class Report {
 				top();
 				reserve();
 				compare();
+				match();
 				WorkbookUtils.save(book, new File(Request.getCurrent().getOutputPath()));
 			}
 		}
@@ -91,6 +93,10 @@ public class Report {
 
 		void compare() throws Exception {
 			Compare.getInstance().execute();
+		}
+
+		void match() throws Exception {
+			Match.getInstance().execute();
 		}
 	}
 }
