@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<job-scheduling-data xmlns="http://www.quartz-scheduler.org/xml/JobSchedulingData"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.quartz-scheduler.org/xml/JobSchedulingData http://www.quartz-scheduler.org/xml/job_scheduling_data_2_0.xsd"
+	version="1.8">
+	<schedule>
+		<job>
+			<name>test</name>
+			<description>テスト</description>
+			<job-class>app.takahashi.a00100.job.a00100.export.Action</job-class>
+		</job>
+		<trigger>
+			<simple>
+				<name>test</name>
+				<job-name>test</job-name>
+				<repeat-count>0</repeat-count>
+				<repeat-interval>2000</repeat-interval>
+			</simple>
+		</trigger>
+	</schedule>
+</job-scheduling-data>
