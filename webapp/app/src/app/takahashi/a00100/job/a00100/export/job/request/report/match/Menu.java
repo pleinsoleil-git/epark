@@ -185,8 +185,9 @@ public class Menu {
 					+ "ON t20.clinic_id = t10.clinic_id\n"
 				+ "INNER JOIN m_clinic AS m10\n"
 					+ "ON m10.id = t10.clinic_id\n"
-				+ "ORDER BY m10.cvr_rank,\n"
-					+ "m10.id\n";
+				+ "LEFT JOIN i_clinic AS t90\n"
+					+ "ON t90.catalog_id = m10.catalog_id\n"
+				+ "ORDER BY t90.id\n";
 
 			val params = new JDBCParameter() {
 				{

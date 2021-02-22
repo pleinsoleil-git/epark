@@ -139,8 +139,9 @@ public class Clinic {
 				+ "LEFT JOIN t_clinic AS t20\n"
 					+ "ON t20.foreign_id = j10.id\n"
 					+ "AND t20.catalog_id = j20.catalog_id\n"
-				+ "ORDER BY m10.cvr_rank,\n"
-					+ "m10.id\n";
+				+ "LEFT JOIN i_clinic AS t90\n"
+					+ "ON t90.catalog_id = m10.catalog_id\n"
+				+ "ORDER BY t90.id\n";
 
 			val params = new JDBCParameter() {
 				{
