@@ -85,6 +85,7 @@ public class Request {
 			try (val status = getStatus()) {
 				try {
 					crawler();
+					status.setStatus(JobStatus.SUCCESS);
 				} catch (Exception e) {
 					status.setStatus(JobStatus.FAILD);
 					status.setMessage(e.getMessage());

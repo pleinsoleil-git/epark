@@ -163,7 +163,7 @@ public class JDBCUtils {
 
 	public static int execute(final JDBCConnection conn, final String sql, final Collection<Object> params)
 			throws Exception {
-		return execute(getConnection(), sql, params);
+		return execute(conn.getConnection(), sql, params);
 	}
 
 	public static int execute(final String sql, final Collection<Object> params) throws Exception {
