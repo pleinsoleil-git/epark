@@ -9,6 +9,9 @@ public class Crawler {
 		reservePage();
 	}
 
+	public void save() throws Exception {
+	}
+
 	void topPage() throws Exception {
 	}
 
