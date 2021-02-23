@@ -109,12 +109,11 @@ public class Request {
 
 		public void execute() throws Exception {
 			try (val status = getStatus()) {
-				if (status.getStatus() == JobStatus.SUCCESS) {
-					try {
-					} catch (Exception e) {
-						status.setStatus(JobStatus.FAILD);
-						status.setMessage(e.getMessage());
-					}
+				try {
+					getCrawler().save();
+				} catch (Exception e) {
+					status.setStatus(JobStatus.FAILD);
+					status.setMessage(e.getMessage());
 				}
 			}
 		}
