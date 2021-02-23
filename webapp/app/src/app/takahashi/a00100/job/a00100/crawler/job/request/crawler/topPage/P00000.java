@@ -1,4 +1,4 @@
-package app.takahashi.a00100.job.a00100.crawler.job.request.crawler.top;
+package app.takahashi.a00100.job.a00100.crawler.job.request.crawler.topPage;
 
 import app.takahashi.a00100.job.a00100.crawler.job.request.Request;
 import app.takahashi.a00100.job.a00100.crawler.job.request.crawler.WebClient;
