@@ -1,6 +1,9 @@
 package app.takahashi.a00100.job.a00100.crawler.job.request;
 
 import java.util.Collection;
+import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutorCompletionService;
+import java.util.concurrent.Executors;
 
 import org.apache.commons.dbutils.handlers.BeanListHandler;
 
@@ -30,16 +33,33 @@ public class Request {
 	}
 
 	public void execute() throws Exception {
-		try {
-			for (val x : query()) {
-				(m_current = x).execute();
+		try (val crawler = Crawler.getInstance()) {
+			val executor = Executors.newFixedThreadPool(1);
+
+			try {
+				val completion = new ExecutorCompletionService<_Task>(executor);
+				int taskNums = 0;
+
+				for (val x : query()) {
+					taskNums++;
+					completion.submit(x);
+				}
+
+				for (int taskNum = 0; taskNum < taskNums; taskNum++) {
+					(m_current = completion.take().get()).execute();
+				}
+
+				executor.shutdown();
+			} catch (Exception e) {
+				executor.shutdownNow();
+				throw e;
 			}
 		} finally {
 			m_instance = null;
 		}
 	}
 
-	Collection<_Current> query() throws Exception {
+	Collection<_Task> query() throws Exception {
 		String sql;
 		sql = "WITH s_params AS\n"
 			+ "(\n"
@@ -66,7 +86,7 @@ public class Request {
 				add(job.getId());
 			}
 		};
-		val rsh = new BeanListHandler<_Current>(_Current.class);
+		val rsh = new BeanListHandler<_Task>(_Task.class);
 		return JDBCUtils.query(sql, rsh, params);
 	}
 
@@ -82,19 +102,37 @@ public class Request {
 		}
 
 		public void execute() throws Exception {
+			System.out.println("_Current");
 			try (val status = getStatus()) {
-				try {
-					crawler();
-					status.setStatus(JobStatus.SUCCESS);
-				} catch (Exception e) {
-					status.setStatus(JobStatus.FAILD);
-					status.setMessage(e.getMessage());
+				if (status.getStatus() == JobStatus.SUCCESS) {
+					try {
+					} catch (Exception e) {
+						status.setStatus(JobStatus.FAILD);
+						status.setMessage(e.getMessage());
+					}
 				}
 			}
 		}
 
 		void crawler() throws Exception {
 			Crawler.getInstance().execute();
+		}
+	}
+
+	public static class _Task extends _Current implements Callable<_Task> {
+		@Override
+		public _Task call() throws Exception {
+			val status = getStatus();
+
+			try {
+System.out.println("_Task");
+				status.setStatus(JobStatus.SUCCESS);
+			} catch (Exception e) {
+				status.setStatus(JobStatus.FAILD);
+				status.setMessage(e.getMessage());
+			}
+
+			return this;
 		}
 	}
 }
