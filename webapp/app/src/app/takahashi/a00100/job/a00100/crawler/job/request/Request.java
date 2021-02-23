@@ -102,7 +102,6 @@ public class Request {
 		}
 
 		public void execute() throws Exception {
-			System.out.println("_Current");
 			try (val status = getStatus()) {
 				if (status.getStatus() == JobStatus.SUCCESS) {
 					try {
@@ -125,7 +124,6 @@ public class Request {
 			val status = getStatus();
 
 			try {
-System.out.println("_Task");
 				status.setStatus(JobStatus.SUCCESS);
 			} catch (Exception e) {
 				status.setStatus(JobStatus.FAILD);
