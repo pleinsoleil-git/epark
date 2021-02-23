@@ -9,6 +9,7 @@ import org.apache.commons.dbutils.handlers.BeanListHandler;
 
 import app.takahashi.a00100.job.a00100.crawler.job.Job;
 import app.takahashi.a00100.job.a00100.crawler.job.request.crawler.Crawler;
+import app.takahashi.a00100.job.a00100.crawler.job.request.crawler.WebBrowser;
 import common.app.job.app.JobStatus;
 import common.jdbc.JDBCParameter;
 import common.jdbc.JDBCUtils;
@@ -33,7 +34,7 @@ public class Request {
 	}
 
 	public void execute() throws Exception {
-		try (val crawler = Crawler.getInstance()) {
+		try (val browser = WebBrowser.getInstance()) {
 			val executor = Executors.newFixedThreadPool(1);
 
 			try {
@@ -96,9 +97,14 @@ public class Request {
 		String m_catalogId;
 		String m_shopownerId;
 		Status m_status;
+		Crawler m_crawler;
 
 		Status getStatus() {
 			return (m_status == null ? m_status = new Status() : m_status);
+		}
+
+		Crawler getCrawler() {
+			return (m_crawler == null ? m_crawler = new Crawler() : m_crawler);
 		}
 
 		public void execute() throws Exception {
@@ -112,10 +118,6 @@ public class Request {
 				}
 			}
 		}
-
-		void crawler() throws Exception {
-			Crawler.getInstance().execute();
-		}
 	}
 
 	public static class _Task extends _Current implements Callable<_Task> {
@@ -124,6 +126,7 @@ public class Request {
 			val status = getStatus();
 
 			try {
+				crawler();
 				status.setStatus(JobStatus.SUCCESS);
 			} catch (Exception e) {
 				status.setStatus(JobStatus.FAILD);
@@ -131,6 +134,10 @@ public class Request {
 			}
 
 			return this;
+		}
+
+		void crawler() throws Exception {
+			getCrawler().execute();
 		}
 	}
 }
