@@ -24,7 +24,7 @@ public class CellUtils {
 			} else if (value instanceof Long) {
 				cell.setCellValue(((Long) value));
 			} else if (value instanceof Integer) {
-				cell.setCellValue(((Long) value));
+				cell.setCellValue(((Integer) value));
 			} else if (value instanceof Date) {
 				cell.setCellValue(((Date) value));
 			} else {

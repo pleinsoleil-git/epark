@@ -1,5 +1,6 @@
 package app.takahashi.a00100.job.a00100.export.job.request.report.top;
 
+import java.sql.Array;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -18,6 +19,7 @@ import app.takahashi.a00100.job.a00100.export.job.Job;
 import app.takahashi.a00100.job.a00100.export.job.request.report.Report;
 import common.jdbc.JDBCParameter;
 import common.jdbc.JDBCUtils;
+import common.lang.BooleanUtils;
 import common.lang.IntegerUtils;
 import common.lang.StringUtils;
 import common.poi.CellUtils;
@@ -69,15 +71,38 @@ public class MenuOldAndNew {
 	public static class _Current {
 		String m_sheetName;
 		Sheet m_sheet;
+		Row m_row;
 		Map<String, Integer> m_oldCells;
 		Map<String, Integer> m_newCells;
 
-		public Sheet getSheet() {
+		Sheet getSheet() {
 			if (m_sheet == null) {
 				m_sheet = Report.getCurrent().getBook().getSheet(getSheetName());
 			}
 
 			return m_sheet;
+		}
+
+		boolean setOldCellValue(final String title, final Object value) throws Exception {
+			val cellNum = m_oldCells.get(title);
+			if (cellNum != null) {
+				val cell = CellUtils.getCell(m_row, cellNum);
+				CellUtils.setCellValue(cell, value);
+				return true;
+			}
+
+			return false;
+		}
+
+		boolean setNewCellValue(final String title, final Object value) throws Exception {
+			val cellNum = m_newCells.get(title);
+			if (cellNum != null) {
+				val cell = CellUtils.getCell(m_row, cellNum);
+				CellUtils.setCellValue(cell, value);
+				return true;
+			}
+
+			return false;
 		}
 
 		public void execute() throws Exception {
@@ -87,6 +112,7 @@ public class MenuOldAndNew {
 
 		void output() throws Exception {
 			header();
+			body();
 		}
 
 		void header() throws Exception {
@@ -184,10 +210,11 @@ public class MenuOldAndNew {
 		}
 
 		void body() throws Exception {
+			val FIRST_ROW = 2;
 			val sheet = Report.getCurrent().getBook().getSheet(getSheetName());
 			val styles = new HashMap<Integer, CellStyle>() {
 				{
-					for (val cell : sheet.getRow(1)) {
+					for (val cell : sheet.getRow(FIRST_ROW)) {
 						val style = cell.getCellStyle();
 						if (style != null) {
 							put(cell.getColumnIndex(), style);
@@ -195,35 +222,87 @@ public class MenuOldAndNew {
 					}
 				}
 			}.entrySet();
-			int rowNum = 1;
+			int rowNum = FIRST_ROW;
 
 			for (val rec : query()) {
-				val row = CellUtil.getRow(rowNum++, sheet);
+				m_row = CellUtils.getRow(sheet, rowNum++);
 				for (val style : styles) {
-					val cell = CellUtils.getCell(row, style.getKey());
+					val cell = CellUtils.getCell(m_row, style.getKey());
 					cell.setCellStyle(style.getValue());
 				}
 
+				Boolean olded = null;
+				val oldCells = getOldCells(), newCells = getNewCells();
 				int cellNum = 0;
-				String uri = null;
 
-				for (val x : rec) {
-					if (cellNum == 0) {
-						uri = "https://haisha-yoyaku.jp/bun2sdental/detail/index/id/"
-								+ x.toString();
+				for (int colNum = 0; colNum < rec.length; colNum++) {
+					if (colNum == 0) {
+						olded = (Boolean) rec[colNum];
+						continue;
 					}
 
-					val cell = CellUtil.getCell(row, cellNum++);
-					CellUtils.setCellValue(cell, x);
-				}
+					val value = rec[colNum];
+					if (value != null) {
+						if (value instanceof Array) {
+							for (val v : oldCells.values()) {
+								val cell = CellUtil.getCell(m_row, v);
+								cell.setCellValue(0L);
+							}
 
-				val cell = CellUtil.getCell(row, cellNum++);
-				cell.setCellValue(uri);
+							for (val v : newCells.values()) {
+								val cell = CellUtil.getCell(m_row, v);
+								cell.setCellValue(0L);
+							}
+
+							for (val v : (String[]) ((Array) value).getArray()) {
+								if (StringUtils.isNotEmpty(v) == false) {
+									continue;
+								}
+
+								// --------------------------------------------------
+								// Webメニュー（旧）
+								// --------------------------------------------------
+								if (BooleanUtils.isTrue(olded) == true) {
+									if (setOldCellValue(v, 1L) == true) {
+										continue;
+									}
+								}
+
+								// --------------------------------------------------
+								// Webメニュー（新）
+								// --------------------------------------------------
+								if (setNewCellValue(v, 1) == true) {
+									continue;
+								}
+							}
+						} else {
+							val cell = CellUtil.getCell(m_row, cellNum++);
+							CellUtils.setCellValue(cell, value);
+						}
+					}
+				}
 			}
 		}
 
 		Collection<Object[]> query() throws Exception {
 			String sql;
+			sql = "CREATE TEMP TABLE tmp_clinic\n"
+				+ "(\n"
+					+ "catalog_id	VARCHAR( 512 ),\n"
+					+ "menu_olded	BOOLEAN,\n"
+					+ "UNIQUE\n"
+					+ "(\n"
+						+ "catalog_id\n"
+					+ ")\n"
+				+ ")\n";
+
+			JDBCUtils.execute(sql);
+			// --------------------------------------------------
+			// 確認が必要な時はtmp_clinicを作成する
+			// --------------------------------------------------
+			// JDBCUtils.execute("TRUNCATE TABLE tmp_clinic");
+			JDBCUtils.commit();
+
 			sql = "WITH s_params AS\n"
 				+ "(\n"
 					+ "SELECT ?::BIGINT AS job_id,\n"
@@ -235,36 +314,41 @@ public class MenuOldAndNew {
 					+ "menu_olded\n"
 				+ ")\n"
 				+ "SELECT m10.catalog_id,\n"
-					+ "CASE WHEN t10.menu_old = TRUE THEN TRUE\n"
-						 + "WHEN t10.menu_new = TRUE THEN FALSE\n"
-						 + "ELSE TRUE\n"
-					+ "END\n"
+					+ "t10.has_old\n"
 				+ "FROM\n"
 				+ "(\n"
-					+ "SELECT m10.id AS clinic_id,\n"
-						+ "MAX( CASE WHEN m20.olded = TRUE THEN 1 ELSE 0 END )::BOOLEAN AS menu_old,\n"
-						+ "MAX( CASE WHEN m20.olded = FALSE THEN 1 ELSE 0 END )::BOOLEAN AS menu_new\n"
-					+ "FROM s_params AS t10\n"
-					+ "INNER JOIN j_job AS j10\n"
-						+ "ON j10.id = t10.job_id\n"
-					+ "INNER JOIN j_request AS j20\n"
-						+ "ON j20.foreign_id = j10.id\n"
-						+ "AND j20.deleted = FALSE\n"
-					+ "INNER JOIN m_clinic AS m10\n"
-						+ "ON m10.foreign_id = j10.id\n"
-						+ "AND m10.catalog_id = j20.catalog_id\n"
-					+ "INNER JOIN t_clinic AS t20\n"
-						+ "ON t20.foreign_id = j10.id\n"
-						+ "AND t20.catalog_id = j20.catalog_id\n"
-					+ "INNER JOIN t_top_menu AS t30\n"
-						+ "ON t30.foreign_id = t20.id\n"
-						+ "AND t30.title = t10.title\n"
-					+ "INNER JOIN t_top_menu_item AS t40\n"
-						+ "ON t40.foreign_id = t30.id\n"
-					+ "INNER JOIN m_top_menu_item AS m20\n"
-						+ "ON m20.title = t40.title\n"
-						+ "AND m20.deleted = FALSE\n"
-					+ "GROUP BY m10.id\n"
+					+ "SELECT t10.clinic_id,\n"
+						+ "MAX( t10.has_old )::BOOLEAN AS has_old\n"
+					+ "FROM\n"
+					+ "(\n"
+						+ "SELECT m10.id AS clinic_id,\n"
+							+ "t40.title,\n"
+							+ "MAX( CASE WHEN m20.olded = TRUE THEN 1 ELSE 0 END ) AS has_old,\n"
+							+ "MAX( CASE WHEN m20.olded = FALSE THEN 1 ELSE 0 END ) AS has_new\n"
+						+ "FROM s_params AS t10\n"
+						+ "INNER JOIN j_job AS j10\n"
+							+ "ON j10.id = t10.job_id\n"
+						+ "INNER JOIN j_request AS j20\n"
+							+ "ON j20.foreign_id = j10.id\n"
+							+ "AND j20.deleted = FALSE\n"
+						+ "INNER JOIN m_clinic AS m10\n"
+							+ "ON m10.foreign_id = j10.id\n"
+							+ "AND m10.catalog_id = j20.catalog_id\n"
+						+ "INNER JOIN t_clinic AS t20\n"
+							+ "ON t20.foreign_id = j10.id\n"
+							+ "AND t20.catalog_id = j20.catalog_id\n"
+						+ "INNER JOIN t_top_menu AS t30\n"
+							+ "ON t30.foreign_id = t20.id\n"
+							+ "AND t30.title = t10.title\n"
+						+ "INNER JOIN t_top_menu_item AS t40\n"
+							+ "ON t40.foreign_id = t30.id\n"
+						+ "INNER JOIN m_top_menu_item AS m20\n"
+							+ "ON m20.title = t40.title\n"
+							+ "AND m20.deleted = FALSE\n"
+						+ "GROUP BY 1, 2\n"
+					+ ") AS t10\n"
+					+ "WHERE t10.has_old != t10.has_new\n"
+					+ "GROUP BY 1\n"
 				+ ") AS t10\n"
 				+ "INNER JOIN m_clinic AS m10\n"
 					+ "ON m10.id = t10.clinic_id\n";
@@ -283,7 +367,8 @@ public class MenuOldAndNew {
 					+ "SELECT ?::BIGINT AS job_id,\n"
 						+ "?::VARCHAR AS title\n"
 				+ ")\n"
-				+ "SELECT m10.catalog_id,\n"
+				+ "SELECT t20.menu_olded,\n"
+					+ "m10.catalog_id,\n"
 					+ "m10.prov_name,\n"
 					+ "m10.city,\n"
 					+ "m10.station1,\n"
@@ -306,8 +391,7 @@ public class MenuOldAndNew {
 					+ "m10.cv,\n"
 					+ "m10.cvr,\n"
 					+ "t10.title_count,\n"
-					+ "t10.title,\n"
-					+ "t20.menu_olded\n"
+					+ "t10.title\n"
 				+ "FROM\n"
 				+ "(\n"
 					+ "SELECT m10.id AS clinic_id,\n"
