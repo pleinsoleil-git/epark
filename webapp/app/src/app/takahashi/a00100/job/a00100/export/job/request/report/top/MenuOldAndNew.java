@@ -96,6 +96,10 @@ public class MenuOldAndNew {
 					CellUtils.getRow(sheet, 0),
 					CellUtils.getRow(sheet, 1),
 			};
+			val cells = new Cell[] {
+					null,
+					null,
+			};
 			val cellNums = new Integer[] {
 					0,
 					0,
@@ -142,12 +146,12 @@ public class MenuOldAndNew {
 				}
 			};
 
-			Cell cell = CellUtils.getCell(rows[0], cellNums[0]);
-			CellUtils.setCellValue(cell, "Webメニュー（旧）");
+			cells[0] = CellUtils.getCell(rows[0], cellNums[0]);
+			CellUtils.setCellValue(cells[0], "Webメニュー（旧）");
 
 			for (val entry : m_oldCells.entrySet()) {
-				cell = CellUtils.getCell(rows[1], entry.getValue());
-				CellUtils.setCellValue(cell, entry.getKey());
+				cells[1] = CellUtils.getCell(rows[1], entry.getValue());
+				CellUtils.setCellValue(cells[1], entry.getKey());
 			}
 
 			// --------------------------------------------------
@@ -170,12 +174,12 @@ public class MenuOldAndNew {
 				}
 			};
 
-			cell = CellUtils.getCell(rows[0], cellNums[0] + m_oldCells.size());
-			CellUtils.setCellValue(cell, "Webメニュー（新）");
+			cells[0] = CellUtils.getCell(rows[0], cellNums[0] + m_oldCells.size());
+			CellUtils.setCellValue(cells[0], "Webメニュー（新）");
 
 			for (val entry : m_newCells.entrySet()) {
-				cell = CellUtils.getCell(rows[1], entry.getValue());
-				CellUtils.setCellValue(cell, entry.getKey());
+				cells[1] = CellUtils.getCell(rows[1], entry.getValue());
+				CellUtils.setCellValue(cells[1], entry.getKey());
 			}
 		}
 
