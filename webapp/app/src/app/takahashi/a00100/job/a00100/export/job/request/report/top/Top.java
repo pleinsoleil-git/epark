@@ -44,6 +44,7 @@ public class Top {
 		public void execute() throws Exception {
 			clinic();
 			menu();
+			menuOldAndNew();
 		}
 
 		void clinic() throws Exception {
@@ -52,6 +53,10 @@ public class Top {
 
 		void menu() throws Exception {
 			Menu.getInstance().execute();
+		}
+
+		void menuOldAndNew() throws Exception {
+			MenuOldAndNew.getInstance().execute();
 		}
 	}
 }
