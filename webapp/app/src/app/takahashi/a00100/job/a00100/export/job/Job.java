@@ -42,7 +42,6 @@ public class Job {
 
 	void delete() throws Exception {
 		for (val x : new String[] {
-				"tmp_clinic",
 		}) {
 			log.info(String.format("Delete %s", x));
 			JDBCUtils.execute(String.format("TRUNCATE TABLE %s CASCADE", x));
