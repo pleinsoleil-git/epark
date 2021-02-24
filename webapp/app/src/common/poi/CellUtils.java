@@ -23,6 +23,8 @@ public class CellUtils {
 				cell.setCellValue(((BigDecimal) value).doubleValue());
 			} else if (value instanceof Long) {
 				cell.setCellValue(((Long) value));
+			} else if (value instanceof Integer) {
+				cell.setCellValue(((Long) value));
 			} else if (value instanceof Date) {
 				cell.setCellValue(((Date) value));
 			} else {
