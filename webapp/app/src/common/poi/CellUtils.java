@@ -5,9 +5,14 @@ import java.util.Date;
 
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.util.CellUtil;
 
 public class CellUtils {
+	public static Row getRow(final Sheet sheet, final int rowIndex) {
+		return CellUtil.getRow(rowIndex, sheet);
+	}
+
 	public static Cell getCell(final Row row, final int columnIndex) {
 		return CellUtil.getCell(row, columnIndex);
 	}
