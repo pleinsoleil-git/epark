@@ -83,6 +83,18 @@ public class MenuOldAndNew {
 			return m_sheet;
 		}
 
+		void zerofill() throws Exception {
+			for (val x : m_oldCells.values()) {
+				val cell = CellUtils.getCell(m_row, x);
+				cell.setCellValue(0);
+			}
+
+			for (val x : m_newCells.values()) {
+				val cell = CellUtils.getCell(m_row, x);
+				cell.setCellValue(0);
+			}
+		}
+
 		boolean setOldCellValue(final String title, final Object value) throws Exception {
 			val cellNum = m_oldCells.get(title);
 			if (cellNum != null) {
@@ -232,7 +244,6 @@ public class MenuOldAndNew {
 				}
 
 				Boolean olded = null;
-				val oldCells = getOldCells(), newCells = getNewCells();
 				int cellNum = 0;
 
 				for (int colNum = 0; colNum < rec.length; colNum++) {
@@ -244,15 +255,7 @@ public class MenuOldAndNew {
 					val value = rec[colNum];
 					if (value != null) {
 						if (value instanceof Array) {
-							for (val v : oldCells.values()) {
-								val cell = CellUtil.getCell(m_row, v);
-								cell.setCellValue(0L);
-							}
-
-							for (val v : newCells.values()) {
-								val cell = CellUtil.getCell(m_row, v);
-								cell.setCellValue(0L);
-							}
+							zerofill();
 
 							for (val v : (String[]) ((Array) value).getArray()) {
 								if (StringUtils.isNotEmpty(v) == false) {
