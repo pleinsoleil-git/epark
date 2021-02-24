@@ -226,6 +226,54 @@ public class MenuOldAndNew {
 			String sql;
 			sql = "WITH s_params AS\n"
 				+ "(\n"
+					+ "SELECT ?::BIGINT AS job_id,\n"
+						+ "?::VARCHAR AS title\n"
+				+ ")\n"
+				+ "SELECT t10.clinic_id,\n"
+					+ "CASE WHEN t10.menu_old = TRUE THEN TRUE\n"
+						 + "WHEN t10.menu_new = TRUE THEN FALSE\n"
+						 + "ELSE TRUE\n"
+					+ "END AS olded\n"
+				+ "FROM\n"
+				+ "(\n"
+					+ "SELECT m10.id AS clinic_id,\n"
+						+ "MAX( CASE WHEN m20.olded = TRUE THEN 1 ELSE 0 END )::BOOLEAN AS menu_old,\n"
+						+ "MAX( CASE WHEN m20.olded = FALSE THEN 1 ELSE 0 END )::BOOLEAN AS menu_new\n"
+					+ "FROM s_params AS t10\n"
+					+ "INNER JOIN j_job AS j10\n"
+						+ "ON j10.id = t10.job_id\n"
+					+ "INNER JOIN j_request AS j20\n"
+						+ "ON j20.foreign_id = j10.id\n"
+						+ "AND j20.deleted = FALSE\n"
+					+ "INNER JOIN m_clinic AS m10\n"
+						+ "ON m10.foreign_id = j10.id\n"
+						+ "AND m10.catalog_id = j20.catalog_id\n"
+					+ "INNER JOIN t_clinic AS t20\n"
+						+ "ON t20.foreign_id = j10.id\n"
+						+ "AND t20.catalog_id = j20.catalog_id\n"
+					+ "INNER JOIN t_top_menu AS t30\n"
+						+ "ON t30.foreign_id = t20.id\n"
+						+ "AND t30.title = t10.title\n"
+					+ "INNER JOIN t_top_menu_item AS t40\n"
+						+ "ON t40.foreign_id = t30.id\n"
+					+ "INNER JOIN m_top_menu_item AS m20\n"
+						+ "ON m20.title = t40.title\n"
+						+ "AND m20.deleted = FALSE\n"
+					+ "GROUP BY m10.id\n"
+				+ ") AS t10\n";
+
+			JDBCUtils.execute(sql, new JDBCParameter() {
+				{
+					val job = Job.getCurrent();
+					add(job.getId());
+					add("治療内容");
+				}
+			});
+			JDBCUtils.commit();
+
+
+			sql = "WITH s_params AS\n"
+				+ "(\n"
 					+ "SELECT ?::BIGINT AS job_id\n"
 				+ ")\n"
 				+ "SELECT m10.catalog_id,\n"
