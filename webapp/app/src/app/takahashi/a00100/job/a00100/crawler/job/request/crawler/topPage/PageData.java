@@ -11,6 +11,7 @@ import common.jdbc.JDBCParameter;
 import common.jdbc.JDBCUtils;
 import common.lang.StringUtils;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.val;
 import lombok.experimental.Accessors;
 
@@ -49,6 +50,7 @@ class PageData implements AutoCloseable {
 	}
 
 	@Data
+	@EqualsAndHashCode(callSuper = false)
 	static class _Current extends WebData {
 		String m_dentalName;
 		String m_totalStar;
