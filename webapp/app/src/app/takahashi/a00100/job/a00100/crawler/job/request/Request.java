@@ -48,7 +48,8 @@ public class Request {
 				}
 
 				for (int taskNum = 0; taskNum < taskNums; taskNum++) {
-					//(m_current = completion.take().get()).execute();
+					m_currents.set(completion.take().get());
+					m_currents.get().execute();
 				}
 
 				executor.shutdown();
@@ -57,6 +58,7 @@ public class Request {
 				throw e;
 			}
 		} finally {
+			m_currents.remove();
 			m_instance = null;
 		}
 	}
