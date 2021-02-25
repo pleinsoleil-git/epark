@@ -9,12 +9,12 @@ public class Crawler {
 		reservePage();
 	}
 
-	public void save() throws Exception {
-	}
-
 	void topPage() throws Exception {
 	}
 
 	void reservePage() throws Exception {
+	}
+
+	public void save() throws Exception {
 	}
 }
