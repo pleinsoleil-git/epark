@@ -72,6 +72,8 @@ class PageData implements AutoCloseable {
 
 		@Override
 		public void close() throws Exception {
+			saveClinic();
+			saveMenuList();
 		}
 
 		void saveClinic() throws Exception {
