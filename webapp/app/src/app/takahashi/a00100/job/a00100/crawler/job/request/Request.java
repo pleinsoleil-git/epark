@@ -1,5 +1,6 @@
 package app.takahashi.a00100.job.a00100.crawler.job.request;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutorCompletionService;
@@ -98,21 +99,22 @@ public class Request {
 		Long m_id;
 		String m_catalogId;
 		String m_shopownerId;
+		Collection<Result> m_results;
 		Status m_status;
-//		Crawler m_crawler;
+
+		Collection<Result> getResults() {
+			return (m_results == null ? m_results = new ArrayList<>() : m_results);
+		}
 
 		Status getStatus() {
 			return (m_status == null ? m_status = new Status() : m_status);
 		}
-/*
-		Crawler getCrawler() {
-			return (m_crawler == null ? m_crawler = new Crawler() : m_crawler);
-		}
-*/
+
 		public void execute() throws Exception {
 			try (val status = getStatus()) {
 				try {
-					// getCrawler().save();
+					for (val x : getResults()) {
+					}
 				} catch (Exception e) {
 					status.setStatus(JobStatus.FAILD);
 					status.setMessage(e.getMessage());
