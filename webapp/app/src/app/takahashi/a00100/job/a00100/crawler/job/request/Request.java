@@ -114,7 +114,9 @@ public class Request {
 		public void execute() throws Exception {
 			try (val status = getStatus()) {
 				try {
-					for (val x : getResults()) {
+					for (val result : getResults()) {
+						try (val x = result) {
+						}
 					}
 				} catch (Exception e) {
 					status.setStatus(JobStatus.FAILD);
