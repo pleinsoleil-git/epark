@@ -15,11 +15,17 @@ import lombok.experimental.Accessors;
 
 @Accessors(prefix = "m_", chain = false)
 public class PageData implements AutoCloseable {
-	static PageData m_instance;
+	static ThreadLocal<PageData> m_instances = new ThreadLocal<PageData>() {
+		@Override
+		protected PageData initialValue() {
+			return new PageData();
+		}
+	};
+
 	_Current m_current;
 
 	public static PageData getInstance() {
-		return (m_instance == null ? m_instance = new PageData() : m_instance);
+		return m_instances.get();
 	}
 
 	public static _Current getCurrent() {
@@ -28,13 +34,13 @@ public class PageData implements AutoCloseable {
 	}
 
 	@Override
-	public void close() throws Exception {
+	public synchronized void close() throws Exception {
 		try {
 			if (m_current != null) {
 				m_current.save();
 			}
 		} finally {
-			m_instance = null;
+			m_instances.remove();
 		}
 	}
 
