@@ -34,7 +34,7 @@ public class PageData implements AutoCloseable {
 	}
 
 	@Override
-	public synchronized void close() throws Exception {
+	public void close() throws Exception {
 		try {
 			if (m_current != null) {
 				m_current.save();
