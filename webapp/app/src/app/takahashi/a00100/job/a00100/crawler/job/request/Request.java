@@ -123,14 +123,20 @@ public class Request {
 	public static class _Task extends _Current implements Callable<_Task> {
 		@Override
 		public _Task call() throws Exception {
-			val status = getStatus();
-
 			try {
-				crawler();
-				status.setStatus(JobStatus.SUCCESS);
-			} catch (Exception e) {
-				status.setStatus(JobStatus.FAILD);
-				status.setMessage(e.getMessage());
+				m_currents.set(this);
+
+				val status = getStatus();
+
+				try {
+					crawler();
+					status.setStatus(JobStatus.SUCCESS);
+				} catch (Exception e) {
+					status.setStatus(JobStatus.FAILD);
+					status.setMessage(e.getMessage());
+				}
+			} finally {
+				m_currents.remove();
 			}
 
 			return this;
