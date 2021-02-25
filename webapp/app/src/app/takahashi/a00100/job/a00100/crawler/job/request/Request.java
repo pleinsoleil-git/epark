@@ -20,7 +20,8 @@ import lombok.experimental.Accessors;
 @Accessors(prefix = "m_", chain = false)
 public class Request {
 	static Request m_instance;
-	_Current m_current;
+	static ThreadLocal<_Current> m_currents = new ThreadLocal<_Current>() {
+	};
 
 	Request() {
 	}
@@ -30,7 +31,7 @@ public class Request {
 	}
 
 	public static _Current getCurrent() {
-		return getInstance().m_current;
+		return m_currents.get();
 	}
 
 	public void execute() throws Exception {
@@ -47,7 +48,7 @@ public class Request {
 				}
 
 				for (int taskNum = 0; taskNum < taskNums; taskNum++) {
-					(m_current = completion.take().get()).execute();
+					//(m_current = completion.take().get()).execute();
 				}
 
 				executor.shutdown();
