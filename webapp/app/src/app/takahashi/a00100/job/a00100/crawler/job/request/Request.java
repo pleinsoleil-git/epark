@@ -110,7 +110,7 @@ public class Request {
 		public void execute() throws Exception {
 			try (val status = getStatus()) {
 				try {
-					getCrawler().save();
+					// getCrawler().save();
 				} catch (Exception e) {
 					status.setStatus(JobStatus.FAILD);
 					status.setMessage(e.getMessage());
