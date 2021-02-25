@@ -9,6 +9,7 @@ import java.util.concurrent.Executors;
 import org.apache.commons.dbutils.handlers.BeanListHandler;
 
 import app.takahashi.a00100.job.a00100.crawler.job.Job;
+import app.takahashi.a00100.job.a00100.crawler.job.request.crawler.Crawler;
 import app.takahashi.a00100.job.a00100.crawler.job.request.crawler.WebBrowser;
 import common.app.job.app.JobStatus;
 import common.jdbc.JDBCParameter;
@@ -146,7 +147,7 @@ public class Request {
 		}
 
 		void crawler() throws Exception {
-			//getCrawler().execute();
+			Crawler.getInstance().execute();
 		}
 	}
 }
