@@ -72,8 +72,7 @@ class P00000 extends WebClient {
 	void getMeniList() throws Exception {
 		val data = PageData.getCurrent();
 		val driver = getDriver();
-
-		data.setMenuList(new LinkedHashMap<String, ArrayList<String>>() {
+		val menuList = new LinkedHashMap<String, ArrayList<String>>() {
 			{
 				val by = By.xpath("//ul[@class='tab_detail-clinic ' or @class='tab_detail-clinic']");
 
@@ -104,7 +103,9 @@ class P00000 extends WebClient {
 					}
 				}
 			}
-		});
+		};
+
+		data.setMenuList(menuList);
 	}
 
 	void getNetReserveType() throws Exception {
