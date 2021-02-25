@@ -12,4 +12,16 @@ class PageData extends Result {
 
 	PageData() {
 	}
+
+	PageData getCurrent() {
+		return m_currents.get();
+	}
+
+	PageData remove() {
+		try {
+			return m_currents.get();
+		} finally {
+			m_currents.remove();
+		}
+	}
 }
