@@ -1,6 +1,8 @@
 package app.takahashi.a00100.job.a00100.crawler.job.request.crawler.topPage;
 
+import app.takahashi.a00100.job.a00100.crawler.job.request.Request;
 import app.takahashi.a00100.job.a00100.crawler.job.request.Result;
+import lombok.val;
 
 class PageData extends Result {
 	static ThreadLocal<PageData> m_currents = new ThreadLocal<PageData>() {
@@ -13,13 +15,15 @@ class PageData extends Result {
 	PageData() {
 	}
 
-	PageData getCurrent() {
+	static PageData getCurrent() {
 		return m_currents.get();
 	}
 
-	PageData remove() {
+	@Override
+	public void close() throws Exception {
 		try {
-			return m_currents.get();
+			val request = Request.getCurrent();
+			request.getResults().add(this);
 		} finally {
 			m_currents.remove();
 		}

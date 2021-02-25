@@ -102,11 +102,11 @@ public class Request {
 		Collection<Result> m_results;
 		Status m_status;
 
-		Collection<Result> getResults() {
+		public Collection<Result> getResults() {
 			return (m_results == null ? m_results = new ArrayList<>() : m_results);
 		}
 
-		Status getStatus() {
+		public Status getStatus() {
 			return (m_status == null ? m_status = new Status() : m_status);
 		}
 
