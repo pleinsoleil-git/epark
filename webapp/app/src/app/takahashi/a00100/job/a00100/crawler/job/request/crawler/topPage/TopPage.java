@@ -3,6 +3,7 @@ package app.takahashi.a00100.job.a00100.crawler.job.request.crawler.topPage;
 import java.util.ArrayList;
 import java.util.Collection;
 
+import app.takahashi.a00100.job.a00100.crawler.job.request.crawler.WebClient;
 import lombok.Data;
 import lombok.val;
 import lombok.experimental.Accessors;
@@ -50,6 +51,9 @@ public class TopPage {
 	public static class _Current {
 		public void execute() throws Exception {
 			try (val data = PageData.getInstance()) {
+				for (WebClient client = new P00000(); client != null;) {
+					client = client.execute();
+				}
 			}
 		}
 	}
