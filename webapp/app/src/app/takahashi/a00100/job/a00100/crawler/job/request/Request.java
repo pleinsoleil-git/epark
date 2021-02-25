@@ -8,7 +8,6 @@ import java.util.concurrent.Executors;
 import org.apache.commons.dbutils.handlers.BeanListHandler;
 
 import app.takahashi.a00100.job.a00100.crawler.job.Job;
-import app.takahashi.a00100.job.a00100.crawler.job.request.crawler.Crawler;
 import app.takahashi.a00100.job.a00100.crawler.job.request.crawler.WebBrowser;
 import common.app.job.app.JobStatus;
 import common.jdbc.JDBCParameter;
@@ -100,16 +99,16 @@ public class Request {
 		String m_catalogId;
 		String m_shopownerId;
 		Status m_status;
-		Crawler m_crawler;
+//		Crawler m_crawler;
 
 		Status getStatus() {
 			return (m_status == null ? m_status = new Status() : m_status);
 		}
-
+/*
 		Crawler getCrawler() {
 			return (m_crawler == null ? m_crawler = new Crawler() : m_crawler);
 		}
-
+*/
 		public void execute() throws Exception {
 			try (val status = getStatus()) {
 				try {
@@ -145,7 +144,7 @@ public class Request {
 		}
 
 		void crawler() throws Exception {
-			getCrawler().execute();
+			//getCrawler().execute();
 		}
 	}
 }
