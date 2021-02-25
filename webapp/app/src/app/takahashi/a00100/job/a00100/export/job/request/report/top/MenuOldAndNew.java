@@ -74,6 +74,7 @@ public class MenuOldAndNew {
 		Row m_row;
 		Map<String, Integer> m_oldCells;
 		Map<String, Integer> m_newCells;
+		Map<String, Integer> m_originalCells;
 
 		Sheet getSheet() {
 			if (m_sheet == null) {
@@ -90,6 +91,11 @@ public class MenuOldAndNew {
 			}
 
 			for (val x : m_newCells.values()) {
+				val cell = CellUtils.getCell(m_row, x);
+				cell.setCellValue(0);
+			}
+
+			for (val x : m_originalCells.values()) {
 				val cell = CellUtils.getCell(m_row, x);
 				cell.setCellValue(0);
 			}
@@ -115,6 +121,38 @@ public class MenuOldAndNew {
 			}
 
 			return false;
+		}
+
+		void setOriginalCellValue(final String title, final Object value) throws Exception {
+			Integer cellNum = m_originalCells.get(title);
+			if (cellNum == null) {
+				if (m_originalCells.isEmpty() == true) {
+					for (val v : m_newCells.values()) {
+						cellNum = v;
+					}
+				} else {
+					for (val v : m_originalCells.values()) {
+						cellNum = v;
+					}
+				}
+
+				cellNum++;
+
+				if (m_originalCells.isEmpty() == true) {
+					val row = CellUtils.getRow(getSheet(), 0);
+					val cell = CellUtils.getCell(row, cellNum);
+					CellUtils.setCellValue(cell, "Webメニュー（独自）");
+				}
+
+				val row = CellUtils.getRow(getSheet(), 1);
+				val cell = CellUtils.getCell(row, cellNum);
+				CellUtils.setCellValue(cell, title);
+
+				m_originalCells.put(title, cellNum);
+			}
+
+			val cell = CellUtils.getCell(m_row, cellNum);
+			CellUtils.setCellValue(cell, value);
 		}
 
 		public void execute() throws Exception {
@@ -219,6 +257,11 @@ public class MenuOldAndNew {
 				cells[1] = CellUtils.getCell(rows[1], entry.getValue());
 				CellUtils.setCellValue(cells[1], entry.getKey());
 			}
+
+			// --------------------------------------------------
+			// Webメニュー（独自）
+			// --------------------------------------------------
+			m_originalCells = new LinkedHashMap<String, Integer>();
 		}
 
 		void body() throws Exception {
@@ -277,6 +320,11 @@ public class MenuOldAndNew {
 								if (setNewCellValue(v, 1) == true) {
 									continue;
 								}
+
+								// --------------------------------------------------
+								// Webメニュー（独自）
+								// --------------------------------------------------
+								setOriginalCellValue(v, 1);
 							}
 						} else {
 							val cell = CellUtil.getCell(m_row, cellNum++);
