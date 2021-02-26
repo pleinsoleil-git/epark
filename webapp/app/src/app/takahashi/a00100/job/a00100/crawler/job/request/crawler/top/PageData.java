@@ -1,4 +1,4 @@
-package app.takahashi.a00100.job.a00100.crawler.job.request.crawler.topPage;
+package app.takahashi.a00100.job.a00100.crawler.job.request.crawler.top;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;

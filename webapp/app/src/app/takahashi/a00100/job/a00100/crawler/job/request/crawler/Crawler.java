@@ -3,7 +3,7 @@ package app.takahashi.a00100.job.a00100.crawler.job.request.crawler;
 import java.util.ArrayList;
 import java.util.Collection;
 
-import app.takahashi.a00100.job.a00100.crawler.job.request.crawler.topPage.TopPage;
+import app.takahashi.a00100.job.a00100.crawler.job.request.crawler.top.TopPage;
 import lombok.Data;
 import lombok.val;
 import lombok.experimental.Accessors;
