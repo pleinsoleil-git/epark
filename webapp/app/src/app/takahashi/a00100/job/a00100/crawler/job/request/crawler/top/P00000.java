@@ -29,6 +29,7 @@ class P00000 extends WebClient {
 		driver.get(getURI());
 	}
 
+	@Override
 	public WebClient submit() throws Exception {
 		getDentalName();
 		getTotalStar();
@@ -102,7 +103,7 @@ class P00000 extends WebClient {
 											for (val item : items) {
 												action.clickAndHold(item).build().perform();
 
-												val text = item.getText();
+												val text = StringUtils.trim(item.getText());
 												if (StringUtils.isEmpty(text) == true) {
 													throw new EmptyException();
 												}

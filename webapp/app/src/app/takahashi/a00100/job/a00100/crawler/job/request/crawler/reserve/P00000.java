@@ -1,7 +1,13 @@
 package app.takahashi.a00100.job.a00100.crawler.job.request.crawler.reserve;
 
+import java.util.ArrayList;
+
+import org.openqa.selenium.By;
+
 import app.takahashi.a00100.job.a00100.crawler.job.request.Request;
 import app.takahashi.a00100.job.a00100.crawler.job.request.crawler.WebClient;
+import common.lang.StringUtils;
+import common.lang.exception.EmptyException;
 import lombok.val;
 import lombok.experimental.Accessors;
 import lombok.extern.slf4j.Slf4j;
@@ -21,7 +27,39 @@ class P00000 extends WebClient {
 		driver.get(getURI());
 	}
 
+	@Override
 	public WebClient submit() throws Exception {
+		getServiceList();
 		return null;
+	}
+
+	void getServiceList() throws Exception {
+		val data = PageData.getCurrent();
+		val driver = getDriver();
+
+		for (int i = 0; i < 10; i++) {
+			try {
+				val serviceList = new ArrayList<String>() {
+					{
+						val by = By.xpath("//ul[@class='service_list']/li");
+
+						for (val x : driver.findElements(by)) {
+							val text = StringUtils.trim(x.getText());
+							if (StringUtils.isEmpty(text) == true) {
+								throw new EmptyException();
+							}
+
+							add(text);
+						}
+					}
+				};
+
+				data.setServiceList(serviceList);
+				return;
+			} catch (EmptyException e) {
+				log.error(String.format("Empty menu[id=%s]",
+						Request.getCurrent().getCatalogId()));
+			}
+		}
 	}
 }
