@@ -38,6 +38,10 @@ class P00000 extends WebClient {
 		val driver = getDriver();
 
 		for (int i = 0; i < 10; i++) {
+			if (i > 0) {
+				Thread.sleep(500);
+			}
+
 			try {
 				val serviceList = new ArrayList<String>() {
 					{
