@@ -47,7 +47,7 @@ public class Crawler {
 	@Data
 	public static class _Current {
 		public void execute() throws Exception {
-			//top();
+			top();
 			reserve();
 		}
 
