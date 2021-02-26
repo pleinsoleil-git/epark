@@ -1,4 +1,4 @@
-package app.takahashi.a00100.job.a00100.crawler.job.request.crawler.top;
+package app.takahashi.a00100.job.a00100.crawler.job.request.crawler.reserve;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -9,19 +9,19 @@ import lombok.val;
 import lombok.experimental.Accessors;
 
 @Accessors(prefix = "m_", chain = false)
-public class TopPage {
-	static ThreadLocal<TopPage> m_instances = new ThreadLocal<TopPage>() {
+public class Reserve {
+	static ThreadLocal<Reserve> m_instances = new ThreadLocal<Reserve>() {
 		@Override
-		protected TopPage initialValue() {
-			return new TopPage();
+		protected Reserve initialValue() {
+			return new Reserve();
 		}
 	};
 	_Current m_current;
 
-	TopPage() {
+	Reserve() {
 	}
 
-	public static TopPage getInstance() {
+	public static Reserve getInstance() {
 		return m_instances.get();
 	}
 

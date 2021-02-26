@@ -3,8 +3,8 @@ package app.takahashi.a00100.job.a00100.crawler.job.request.crawler;
 import java.util.ArrayList;
 import java.util.Collection;
 
-import app.takahashi.a00100.job.a00100.crawler.job.request.crawler.reserve.ReservePage;
-import app.takahashi.a00100.job.a00100.crawler.job.request.crawler.top.TopPage;
+import app.takahashi.a00100.job.a00100.crawler.job.request.crawler.reserve.Reserve;
+import app.takahashi.a00100.job.a00100.crawler.job.request.crawler.top.Top;
 import lombok.Data;
 import lombok.val;
 import lombok.experimental.Accessors;
@@ -52,11 +52,11 @@ public class Crawler {
 		}
 
 		void top() throws Exception {
-			TopPage.getInstance().execute();
+			Top.getInstance().execute();
 		}
 
 		void reserve() throws Exception {
-			ReservePage.getInstance().execute();
+			Reserve.getInstance().execute();
 		}
 	}
 }
