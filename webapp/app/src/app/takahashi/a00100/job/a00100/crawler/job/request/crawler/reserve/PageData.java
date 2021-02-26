@@ -1,5 +1,6 @@
 package app.takahashi.a00100.job.a00100.crawler.job.request.crawler.reserve;
 
+import java.util.ArrayList;
 import java.util.Collection;
 
 import app.takahashi.a00100.job.a00100.crawler.job.Job;
@@ -7,6 +8,7 @@ import app.takahashi.a00100.job.a00100.crawler.job.request.Request;
 import app.takahashi.a00100.job.a00100.crawler.job.request.crawler.WebData;
 import common.jdbc.JDBCParameter;
 import common.jdbc.JDBCUtils;
+import common.lang.StringUtils;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.val;
@@ -58,6 +60,7 @@ class PageData implements AutoCloseable {
 		@Override
 		public void close() throws Exception {
 			saveClinic();
+			saveServiceList();
 		}
 
 		void saveClinic() throws Exception {
@@ -101,35 +104,53 @@ class PageData implements AutoCloseable {
 				+ "(\n"
 					+ "SELECT CAST( ? AS BIGINT ) AS job_id,\n"
 						+ "CAST( ? AS VARCHAR ) AS catalog_id,\n"
-						+ "CAST( ? AS VARCHAR ) AS title\n"
-				+ ")\n"
+						+ StringUtils.join(new ArrayList<String>() {
+							{
+								val items = new ArrayList<String>() {
+									{
+										for (@SuppressWarnings("unused")val x : getServiceList()) {
+											add("CAST( ? AS VARCHAR )");
+										}
+									}
+								};
+
+								if (items.isEmpty() == true) {
+									add("CAST( NULL AS VARCHAR[] ) AS item\n");
+								} else {
+									add("ARRAY\n");
+									add("[\n");
+									add(StringUtils.join(items.toArray(new String[0]), ",\n"));
+									add("] AS item\n");
+								}
+							}
+						}.toArray(new String[0]))
+					+ ")\n"
 				+ "INSERT INTO t_reserve_menu\n"
 				+ "(\n"
 					+ "foreign_id,\n"
 					+ "title\n"
 				+ ")\n"
 				+ "SELECT t20.id,\n"
-					+ "t10.title\n"
+					+ "UNNEST( t10.item )\n"
 				+ "FROM s_params AS t10\n"
 				+ "INNER JOIN t_clinic AS t20\n"
 					+ "ON t20.foreign_id = t10.job_id\n"
 					+ "AND t20.catalog_id = t10.catalog_id\n";
-/*
-			val job = Job.getCurrent();
-			val conn = JDBCConnection.getCurrent().getConnection();
 
-			try (val stmt = conn.prepareStatement(sql)) {
-				for (val x : getServiceList()) {
-					int colNum = 1;
-					stmt.setLong(colNum++, job.getId());
-					stmt.setString(colNum++, getCatalogId());
-					stmt.setString(colNum++, x);
-					stmt.addBatch();
+			val params = new JDBCParameter() {
+				{
+					val job = Job.getCurrent();
+
+					add(job.getId());
+					add(getCatalogId());
+
+					for (val x : getServiceList()) {
+						add(x);
+					}
 				}
+			};
 
-				stmt.executeBatch();
-			}
-*/
+			JDBCUtils.execute(sql, params);
 		}
 	}
 }
