@@ -66,7 +66,7 @@ public class Job {
 	@Data
 	public static class _Current {
 		Long m_id;
-		Long m_threadNums;
+		Integer m_threadNums;
 
 		public void execute() throws Exception {
 			request();

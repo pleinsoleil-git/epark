@@ -39,7 +39,8 @@ public class Request {
 
 	public void execute() throws Exception {
 		try (val browser = WebBrowser.getInstance()) {
-			val executor = Executors.newFixedThreadPool(1);
+			val job = Job.getCurrent();
+			val executor = Executors.newFixedThreadPool(job.getThreadNums());
 
 			try {
 				val completion = new ExecutorCompletionService<_Task>(executor);
