@@ -109,7 +109,7 @@ public class MenuType {
 				+ "(\n"
 					+ "SELECT t10.title,\n"
 						+ "CASE WHEN t10.detail_ss = 0 THEN 0\n"
-							 + "ELSE t10.cv / t10.detail_ss\n"
+							 + "ELSE TRUNC( t10.cv / t10.detail_ss, 5 )\n"
 						+ "END AS cvr,\n"
 						+ "ROW_NUMBER() OVER ( ORDER BY m10.id, t10.title ) AS row_num\n"
 					+ "FROM\n"
