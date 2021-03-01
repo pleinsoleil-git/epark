@@ -1,6 +1,6 @@
 package app.nakajo.a00100.job.a00100.load;
 
-import app.takahashi.a00100.job.a00100.export.job.Job;
+import app.nakajo.a00100.job.a00100.load.job.Job;
 import lombok.experimental.Accessors;
 
 @Accessors(prefix = "m_", chain = false)
@@ -11,6 +11,7 @@ public class Model extends app.nakajo.a00100.job.common.app.Model {
 	public void execute() throws Exception {
 		if (isExecutable() == true) {
 			try {
+				job();
 			} finally {
 				m_executing = false;
 			}
