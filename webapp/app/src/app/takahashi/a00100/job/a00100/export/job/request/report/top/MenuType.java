@@ -149,7 +149,7 @@ public class MenuType {
 						+ "ON m10.menu = t20.title\n"
 						+ "AND m10.title = t10.title\n"
 				+ ") AS t10\n"
-				+ "ORDER BY t10.row_num\n";
+				+ "ORDER BY t10.cvr DESC, t10.row_num\n";
 
 			val rsh = new ArrayListHandler();
 			return JDBCUtils.query(sql, rsh, new JDBCParameter() {
