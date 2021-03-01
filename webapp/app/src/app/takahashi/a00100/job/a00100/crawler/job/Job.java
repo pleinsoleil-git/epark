@@ -53,7 +53,8 @@ public class Job {
 
 	Collection<_Current> query() throws Exception {
 		String sql;
-		sql = "SELECT j10.id\n"
+		sql = "SELECT j10.id,\n"
+				+ "j10.thread_nums AS threadNums\n"
 			+ "FROM j_job AS j10\n"
 			+ "WHERE j10.deleted = FALSE\n"
 			+ "ORDER BY j10.id\n";
@@ -65,6 +66,7 @@ public class Job {
 	@Data
 	public static class _Current {
 		Long m_id;
+		Long m_threadNums;
 
 		public void execute() throws Exception {
 			request();
