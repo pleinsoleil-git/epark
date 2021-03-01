@@ -67,8 +67,8 @@ class PageData implements AutoCloseable {
 			String sql;
 			sql = "WITH s_params AS\n"
 				+ "(\n"
-					+ "SELECT CAST( ? AS BIGINT ) AS job_id,\n"
-						+ "CAST( ? AS VARCHAR ) AS catalog_id\n"
+					+ "SELECT ?::BIGINT AS job_id,\n"
+						+ "?::VARCHAR AS catalog_id\n"
 				+ ")\n"
 				+ "INSERT INTO t_clinic\n"
 				+ "(\n"
@@ -102,20 +102,20 @@ class PageData implements AutoCloseable {
 			String sql;
 			sql = "WITH s_params AS\n"
 				+ "(\n"
-					+ "SELECT CAST( ? AS BIGINT ) AS job_id,\n"
-						+ "CAST( ? AS VARCHAR ) AS catalog_id,\n"
+					+ "SELECT ?::BIGINT AS job_id,\n"
+						+ "?::VARCHAR AS catalog_id,\n"
 						+ StringUtils.join(new ArrayList<String>() {
 							{
 								val items = new ArrayList<String>() {
 									{
 										for (@SuppressWarnings("unused")val x : getServiceList()) {
-											add("CAST( ? AS VARCHAR )");
+											add("?::VARCHAR");
 										}
 									}
 								};
 
 								if (items.isEmpty() == true) {
-									add("CAST( NULL AS VARCHAR[] ) AS item\n");
+									add("NULL::VARCHAR[] AS item\n");
 								} else {
 									add("ARRAY\n");
 									add("[\n");

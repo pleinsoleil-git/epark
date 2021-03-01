@@ -132,52 +132,73 @@ class PageData implements AutoCloseable {
 				String sql;
 				sql = "WITH s_params AS\n"
 					+ "(\n"
-						+ "SELECT CAST( ? AS BIGINT ) AS job_id,\n"
-							+ "CAST( ? AS VARCHAR ) AS catalog_id,\n"
-							+ "CAST( ? AS VARCHAR ) AS menu,\n"
+						+ "SELECT ?::BIGINT AS job_id,\n"
+							+ "?::VARCHAR AS catalog_id,\n"
+							+ "?::VARCHAR AS menu,\n"
 							+ StringUtils.join(new ArrayList<String>() {
 								{
 									val items = new ArrayList<String>() {
 										{
 											for (@SuppressWarnings("unused")val x : entry.getValue()) {
-												add("CAST( ? AS VARCHAR )");
+												add("?::VARCHAR");
 											}
 										}
 									};
 
 									if (items.isEmpty() == true) {
-										add("CAST( NULL AS VARCHAR[] ) AS item\n");
+										add("NULL::VARCHAR[] AS title\n");
 									} else {
 										add("ARRAY\n");
 										add("[\n");
 										add(StringUtils.join(items.toArray(new String[0]), ",\n"));
-										add("] AS item\n");
+										add("] AS title\n");
 									}
 								}
 							}.toArray(new String[0]))
-						+ "),\n"
+					+ "),\n"
 					+ "i_menu AS\n"
 					+ "(\n"
 						+ "INSERT INTO t_top_menu\n"
 						+ "(\n"
 							+ "foreign_id,\n"
-							+ "title\n"
+							+ "title,\n"
+							+ "olded\n"
 						+ ")\n"
-						+ "SELECT t20.id,\n"
-							+ "t10.menu\n"
-						+ "FROM s_params AS t10\n"
-						+ "INNER JOIN t_clinic AS t20\n"
-							+ "ON t20.foreign_id = t10.job_id\n"
-							+ "AND t20.catalog_id = t10.catalog_id\n"
+						+ "SELECT t30.id,\n"
+							+ "t20.menu,\n"
+							+ "t10.olded\n"
+						+ "FROM\n"
+						+ "(\n"
+							+ "SELECT CASE WHEN SUM( t10.old_title ) > 0 THEN TRUE\n"
+										+ "WHEN SUM( t10.new_title ) > 0 THEN FALSE\n"
+										+ "ELSE NULL\n"
+									+ "END AS olded\n"
+							+ "FROM\n"
+							+ "(\n"
+								+ "SELECT t10.title,\n"
+									+ "SUM( CASE WHEN m10.olded = TRUE THEN 1 ELSE 0 END ) AS old_title,\n"
+									+ "SUM( CASE WHEN m10.olded = FALSE THEN 1 ELSE 0 END ) AS new_title\n"
+								+ "FROM\n"
+								+ "(\n"
+									+ "SELECT t10.menu,\n"
+										+ "UNNEST( t10.title ) AS title\n"
+									+ "FROM s_params AS t10\n"
+								+ ") AS t10\n"
+								+ "INNER JOIN m_top_menu_item AS m10\n"
+									+ "ON m10.menu = t10.menu\n"
+									+ "AND m10.title = t10.title\n"
+								+ "GROUP BY 1\n"
+							+ ") AS t10\n"
+							+ "WHERE NOT ( t10.old_title > 0 AND t10.new_title > 0 )\n"
+						+ ") AS t10\n"
+						+ "CROSS JOIN s_params AS t20\n"
+						+ "INNER JOIN t_clinic AS t30\n"
+							+ "ON t30.foreign_id = t20.job_id\n"
+							+ "AND t30.catalog_id = t20.catalog_id\n"
 						+ "RETURNING id AS menu_id\n"
 					+ ")\n"
-					+ "INSERT INTO t_top_menu_item\n"
-					+ "(\n"
-						+ "foreign_id,\n"
-						+ "title\n"
-					+ ")\n"
 					+ "SELECT t20.menu_id,\n"
-						+ "UNNEST( t10.item )\n"
+						+ "UNNEST( t10.title )\n"
 					+ "FROM s_params AS t10\n"
 					+ "CROSS JOIN i_menu AS t20\n";
 
