@@ -17,7 +17,9 @@ import common.jdbc.JDBCUtils;
 import lombok.Data;
 import lombok.val;
 import lombok.experimental.Accessors;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @Accessors(prefix = "m_", chain = false)
 public class Request {
 	static Request m_instance;
@@ -123,6 +125,7 @@ public class Request {
 				} catch (Exception e) {
 					status.setStatus(JobStatus.FAILD);
 					status.setMessage(e.getMessage());
+					log.error("", e);
 				}
 			}
 		}
@@ -142,6 +145,7 @@ public class Request {
 				} catch (Exception e) {
 					status.setStatus(JobStatus.FAILD);
 					status.setMessage(e.getMessage());
+					log.error("", e);
 				}
 			} finally {
 				m_currents.remove();
