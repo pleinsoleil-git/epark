@@ -3,6 +3,7 @@ package app.nakajo.a00100.job.a00100.load.job;
 import java.util.ArrayList;
 import java.util.Collection;
 
+import app.nakajo.a00100.job.a00100.load.job.request.Request;
 import common.jdbc.JDBCUtils;
 import lombok.Data;
 import lombok.val;
@@ -61,7 +62,12 @@ public class Job {
 		Long m_id;
 
 		public void execute() throws Exception {
+			request();
 			log.info("Done!!");
+		}
+
+		void request() throws Exception {
+			Request.getInstance().execute();
 		}
 	}
 }
