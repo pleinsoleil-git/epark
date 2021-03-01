@@ -115,12 +115,12 @@ class PageData implements AutoCloseable {
 								};
 
 								if (items.isEmpty() == true) {
-									add("NULL::VARCHAR[] AS item\n");
+									add("NULL::VARCHAR[] AS title\n");
 								} else {
 									add("ARRAY\n");
 									add("[\n");
 									add(StringUtils.join(items.toArray(new String[0]), ",\n"));
-									add("] AS item\n");
+									add("] AS title\n");
 								}
 							}
 						}.toArray(new String[0]))
@@ -131,7 +131,7 @@ class PageData implements AutoCloseable {
 					+ "title\n"
 				+ ")\n"
 				+ "SELECT t20.id,\n"
-					+ "UNNEST( t10.item )\n"
+					+ "UNNEST( t10.title )\n"
 				+ "FROM s_params AS t10\n"
 				+ "INNER JOIN t_clinic AS t20\n"
 					+ "ON t20.foreign_id = t10.job_id\n"
