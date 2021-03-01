@@ -202,10 +202,15 @@ class PageData implements AutoCloseable {
 						+ "foreign_id,\n"
 						+ "title\n"
 					+ ")\n"
-					+ "SELECT t20.menu_id,\n"
-						+ "UNNEST( t10.title )\n"
-					+ "FROM s_params AS t10\n"
-					+ "CROSS JOIN i_menu AS t20\n";
+					+ "SELECT DISTINCT t10.menu_id,\n"
+						+ "t10.title\n"
+					+ "FROM\n"
+					+ "(\n"
+						+ "SELECT t20.menu_id,\n"
+							+ "UNNEST( t10.title ) AS title\n"
+						+ "FROM s_params AS t10\n"
+						+ "CROSS JOIN i_menu AS t20\n"
+					+ ") AS t10\n";
 
 				val params = new JDBCParameter() {
 					{
