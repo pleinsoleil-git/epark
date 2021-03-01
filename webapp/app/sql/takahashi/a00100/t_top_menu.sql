@@ -6,6 +6,7 @@ CREATE TABLE t_top_menu
 	id						BIGSERIAL,
 	foreign_id				BIGINT				REFERENCES t_clinic( id ) ON DELETE CASCADE,
 	title					VARCHAR( 1024 ),
+	olded					BOOLEAN,
 	created_at				TIMESTAMP( 0 )		DEFAULT CURRENT_TIMESTAMP,
 	PRIMARY KEY
 	(
