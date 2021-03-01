@@ -418,7 +418,7 @@ public class MenuOldAndNew {
 					+ "SELECT ?::BIGINT AS job_id,\n"
 						+ "?::VARCHAR AS title\n"
 				+ ")\n"
-				+ "SELECT t20.menu_olded,\n"
+				+ "SELECT t10.title_olded,\n"
 					+ "m10.catalog_id,\n"
 					+ "m10.prov_name,\n"
 					+ "m10.city,\n"
@@ -446,6 +446,7 @@ public class MenuOldAndNew {
 				+ "FROM\n"
 				+ "(\n"
 					+ "SELECT m10.id AS clinic_id,\n"
+						+ "t30.olded AS title_olded,\n"
 						+ "COUNT( t40.title ) AS title_count,\n"
 						+ "ARRAY_AGG( t40.title ) AS title\n"
 					+ "FROM s_params AS t10\n"
@@ -465,15 +466,14 @@ public class MenuOldAndNew {
 						+ "AND t30.title = t10.title\n"
 					+ "LEFT JOIN t_top_menu_item AS t40\n"
 						+ "ON t40.foreign_id = t30.id\n"
-					+ "GROUP BY m10.id\n"
+					+ "GROUP BY 1, 2\n"
 				+ ") AS t10\n"
 				+ "INNER JOIN m_clinic AS m10\n"
 					+ "ON m10.id = t10.clinic_id\n"
-				+ "LEFT JOIN tmp_clinic AS t20\n"
-					+ "ON t20.catalog_id = m10.catalog_id\n"
-				+ "LEFT JOIN i_clinic AS t90\n"
-					+ "ON t90.catalog_id = m10.catalog_id\n"
-				+ "ORDER BY t90.id\n";
+				+ "INNER JOIN j_request AS j10\n"
+					+ "ON j10.foreign_id = m10.foreign_id\n"
+					+ "AND j10.catalog_id = m10.catalog_id\n"
+				+ "ORDER BY j10.id\n";
 
 			val rsh = new ArrayListHandler();
 			return JDBCUtils.query(sql, rsh, new JDBCParameter() {
