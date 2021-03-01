@@ -275,9 +275,10 @@ class Menu {
 					+ "ON t20.clinic_id = t10.clinic_id\n"
 				+ "INNER JOIN m_clinic AS m10\n"
 					+ "ON m10.id = t10.clinic_id\n"
-				+ "LEFT JOIN i_clinic AS t90\n"
-					+ "ON t90.catalog_id = m10.catalog_id\n"
-				+ "ORDER BY t90.id\n";
+				+ "INNER JOIN j_request AS j10\n"
+					+ "ON j10.foreign_id = m10.foreign_id\n"
+					+ "AND j10.catalog_id = m10.catalog_id\n"
+				+ "ORDER BY j10.id\n";
 
 			val params = new JDBCParameter() {
 				{
