@@ -120,12 +120,12 @@ public class Request {
 						try (val x = result) {
 						}
 					}
-
-					JDBCUtils.commit();
 				} catch (Exception e) {
 					status.setStatus(JobStatus.FAILD);
 					status.setMessage(e.getMessage());
 					log.error("", e);
+				} finally {
+					JDBCUtils.commit();
 				}
 			}
 		}
