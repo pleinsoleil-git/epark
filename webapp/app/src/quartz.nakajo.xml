@@ -5,14 +5,14 @@
 	version="1.8">
 	<schedule>
 		<job>
-			<name>takahashi.a00100.job.a00100.export</name>
-			<description>CVR改善</description>
-			<job-class>app.takahashi.a00100.job.a00100.export.Action</job-class>
+			<name>nakajo.a00100.job.a00100.load</name>
+			<description>リピート率</description>
+			<job-class>app.nakajo.a00100.job.a00100.load.Action</job-class>
 		</job>
 		<trigger>
 			<simple>
-				<name>takahashi.a00100.job.a00100.export</name>
-				<job-name>takahashi.a00100.job.a00100.export</job-name>
+				<name>nakajo.a00100.job.a00100.load</name>
+				<job-name>nakajo.a00100.job.a00100.load</job-name>
 				<repeat-count>0</repeat-count>
 				<repeat-interval>2000</repeat-interval>
 			</simple>
