@@ -70,6 +70,8 @@ public class Job {
 		public void execute() throws Exception {
 			log.info(String.format("Job[id=%d input=%s]", getId(), getInputFile()));
 
+			request();
+
 			log.info("Done!!");
 		}
 
