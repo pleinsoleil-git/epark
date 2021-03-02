@@ -7,6 +7,7 @@ import org.apache.poi.ss.usermodel.Sheet;
 
 import app.nakajo.a00100.job.a00100.load.job.Job;
 import app.nakajo.a00100.job.a00100.load.job.request.load.Load;
+import common.app.job.app.JobStatus;
 import common.jdbc.JDBCParameter;
 import common.jdbc.JDBCUtils;
 import lombok.Data;
@@ -90,6 +91,7 @@ public class Request {
 		String m_dataType;
 		String m_inputSheet;
 		Sheet m_sheet;
+		Status m_status;
 
 		public Sheet getSheet() {
 			if (m_sheet == null) {
@@ -100,14 +102,27 @@ public class Request {
 			return m_sheet;
 		}
 
+		public Status getStatus() {
+			return (m_status == null ? m_status = new Status() : m_status);
+		}
+
 		public void execute() throws Exception {
 			log.info(String.format("Request[id=%d type=%s input=%s]",
 					getId(),
 					getDataType(),
 					getInputSheet()));
 
-			try {
-				load();
+			try (val status = getStatus()) {
+				try {
+					load();
+					status.setStatus(JobStatus.SUCCESS);
+					log.info("Done!!");
+				} catch (Exception e) {
+					log.error("", e);
+					status.setStatus(JobStatus.FAILD);
+					status.setMessage(e.getMessage());
+					JDBCUtils.commit();
+				}
 			} catch (Exception e) {
 				log.error("", e);
 			}
