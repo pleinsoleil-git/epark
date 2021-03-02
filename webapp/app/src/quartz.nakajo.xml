@@ -18,4 +18,19 @@
 			</simple>
 		</trigger>
 	</schedule>
+	<schedule>
+		<job>
+			<name>nakajo.a00100.job.a00100.export</name>
+			<description>リピート率</description>
+			<job-class>app.nakajo.a00100.job.a00100.export.Action</job-class>
+		</job>
+		<trigger>
+			<simple>
+				<name>nakajo.a00100.job.a00100.export</name>
+				<job-name>nakajo.a00100.job.a00100.export</job-name>
+				<repeat-count>0</repeat-count>
+				<repeat-interval>2000</repeat-interval>
+			</simple>
+		</trigger>
+	</schedule>
 </job-scheduling-data>

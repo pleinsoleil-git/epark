@@ -1,6 +1,6 @@
 package app.nakajo.a00100.job.a00100.export;
 
-import app.nakajo.a00100.job.a00100.load.job.Job;
+import app.nakajo.a00100.job.a00100.export.job.Job;
 import lombok.experimental.Accessors;
 
 @Accessors(prefix = "m_", chain = false)
