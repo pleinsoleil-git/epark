@@ -1,8 +1,11 @@
 package app.nakajo.a00100.job.a00100.load.job;
 
+import java.io.File;
 import java.util.Collection;
 
 import org.apache.commons.dbutils.handlers.BeanListHandler;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.ss.usermodel.WorkbookFactory;
 
 import app.nakajo.a00100.job.a00100.load.job.request.Request;
 import common.jdbc.JDBCUtils;
@@ -66,6 +69,19 @@ public class Job {
 	public static class _Current {
 		Long m_id;
 		String m_inputFile;
+		Workbook m_workbook;
+
+		public Workbook getWorkbook() {
+			if (m_workbook == null) {
+				try {
+					m_workbook = WorkbookFactory.create(new File(getInputFile()));
+				} catch (Exception e) {
+					log.error("", e);
+				}
+			}
+
+			return m_workbook;
+		}
 
 		public void execute() throws Exception {
 			log.info(String.format("Job[id=%d input=%s]", getId(), getInputFile()));
