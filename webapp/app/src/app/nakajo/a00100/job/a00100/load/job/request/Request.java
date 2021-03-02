@@ -48,6 +48,7 @@ public class Request {
 				+ "SELECT ?::BIGINT AS job_id\n"
 			+ ")\n"
 			+ "SELECT j10.id,\n"
+				+ "j10.data_type AS dataType,\n"
 				+ "j10.input_sheet AS inputSheet\n"
 			+ "FROM s_params AS t10\n"
 			+ "INNER JOIN j_load_request AS j10\n"
@@ -74,6 +75,7 @@ public class Request {
 	@Data
 	public static class _Current {
 		Long m_id;
+		String m_dataType;
 		String m_inputSheet;
 		Sheet m_sheet;
 
@@ -87,7 +89,10 @@ public class Request {
 		}
 
 		public void execute() throws Exception {
-			log.info(String.format("Request[id=%d input=%s]", getId(), getInputSheet()));
+			log.info(String.format("Request[id=%d type=%s input=%s]",
+					getId(),
+					getDataType(),
+					getInputSheet()));
 
 			try {
 				load();
