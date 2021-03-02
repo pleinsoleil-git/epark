@@ -61,6 +61,12 @@ public class Job {
 				+ "j10.input_file AS inputFile\n"
 			+ "FROM j_load_job AS j10\n"
 			+ "WHERE j10.deleted = FALSE\n"
+			+ "AND NOT EXISTS\n"
+			+ "(\n"
+				+ "SELECT NULL\n"
+				+ "FROM j_load_job_status AS j900\n"
+				+ "WHERE j900.foreign_id = j10.id\n"
+			+ ")\n"
 			+ "ORDER BY j10.id\n";
 
 		val rsh = new BeanListHandler<_Current>(_Current.class);
