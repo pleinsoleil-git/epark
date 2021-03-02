@@ -34,7 +34,7 @@ public class Job {
 
 	public void execute() throws Exception {
 		try {
-			// delete();
+			delete();
 
 			for (val x : query()) {
 				(m_current = x).execute();
@@ -47,7 +47,7 @@ public class Job {
 	void delete() throws Exception {
 		for (val x : new String[] {
 				"j_export_job_status",
-				//"j_export_request_status",
+				"j_export_request_status",
 		}) {
 			log.info(String.format("Delete %s", x));
 			JDBCUtils.execute(String.format("TRUNCATE TABLE %s CASCADE", x));

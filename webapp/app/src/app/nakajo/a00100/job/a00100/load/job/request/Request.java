@@ -116,7 +116,6 @@ public class Request {
 				try {
 					load();
 					status.setStatus(JobStatus.SUCCESS);
-					log.info("Done!!");
 				} catch (Exception e) {
 					log.error("", e);
 					status.setStatus(JobStatus.FAILD);
