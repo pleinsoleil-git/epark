@@ -3,6 +3,7 @@ package app.nakajo.a00100.job.a00100.load.job.request.load;
 import java.util.ArrayList;
 import java.util.Collection;
 
+import app.nakajo.a00100.job.a00100.load.job.request.load.entry.Entry;
 import common.jdbc.JDBCUtils;
 import lombok.Data;
 import lombok.val;
@@ -49,6 +50,11 @@ public class Load {
 		public void execute() throws Exception {
 			delete();
 			insert();
+			entry();
+		}
+
+		void entry() throws Exception {
+			Entry.getInstance().execute();
 		}
 
 		void delete() throws Exception {
@@ -155,6 +161,8 @@ public class Load {
 
 				stmt.parse(sql);
 
+				int rowNums = 0;
+
 				try (val reader = new Reader()) {
 					for (boolean done = false; done == false;) {
 						for (int rowNum = 0; rowNum < 1000; rowNum++) {
@@ -195,10 +203,12 @@ public class Load {
 							stmt.addBatch();
 						}
 
-						stmt.executeBatch();
+						rowNums += stmt.executeBatch().length;
 						JDBCUtils.commit();
 					}
 				}
+
+				log.info(String.format("Insert i_usage_history[count=%s]", rowNums));
 			}
 		}
 	}
