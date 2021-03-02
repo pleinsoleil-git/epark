@@ -1,7 +1,8 @@
 package app.nakajo.a00100.job.a00100.load.job;
 
-import java.util.ArrayList;
 import java.util.Collection;
+
+import org.apache.commons.dbutils.handlers.BeanListHandler;
 
 import app.nakajo.a00100.job.a00100.load.job.request.Request;
 import common.jdbc.JDBCUtils;
@@ -50,19 +51,25 @@ public class Job {
 	}
 
 	Collection<_Current> query() throws Exception {
-		return new ArrayList<_Current>() {
-			{
-				add(new _Current());
-			}
-		};
+		String sql;
+		sql = "SELECT j10.id,\n"
+				+ "j10.input_file AS inputFile\n"
+			+ "FROM j_load_job AS j10\n"
+			+ "WHERE j10.deleted = FALSE\n"
+			+ "ORDER BY j10.id\n";
+
+		val rsh = new BeanListHandler<_Current>(_Current.class);
+		return JDBCUtils.query(sql, rsh);
 	}
 
 	@Data
 	public static class _Current {
 		Long m_id;
+		String m_inputFile;
 
 		public void execute() throws Exception {
-			request();
+			log.info(String.format("Job[id=%d input=%s]", getId(), getInputFile()));
+
 			log.info("Done!!");
 		}
 
