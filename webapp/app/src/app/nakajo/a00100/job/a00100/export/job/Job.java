@@ -7,7 +7,7 @@ import org.apache.commons.dbutils.handlers.BeanListHandler;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.ss.usermodel.WorkbookFactory;
 
-import app.nakajo.a00100.job.a00100.load.job.request.Request;
+import app.nakajo.a00100.job.a00100.export.job.request.Request;
 import common.app.job.app.JobStatus;
 import common.jdbc.JDBCUtils;
 import lombok.Data;
@@ -34,7 +34,7 @@ public class Job {
 
 	public void execute() throws Exception {
 		try {
-			delete();
+			// delete();
 
 			for (val x : query()) {
 				(m_current = x).execute();
@@ -101,6 +101,7 @@ public class Job {
 
 			try (val status = getStatus()) {
 				try {
+					request();
 					status.setStatus(JobStatus.SUCCESS);
 					log.info("Done!!");
 				} catch (Exception e) {
