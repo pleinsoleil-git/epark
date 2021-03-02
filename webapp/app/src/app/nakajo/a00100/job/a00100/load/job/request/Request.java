@@ -3,8 +3,10 @@ package app.nakajo.a00100.job.a00100.load.job.request;
 import java.util.Collection;
 
 import org.apache.commons.dbutils.handlers.BeanListHandler;
+import org.apache.poi.ss.usermodel.Sheet;
 
 import app.nakajo.a00100.job.a00100.load.job.Job;
+import app.nakajo.a00100.job.a00100.load.job.request.load.Load;
 import common.jdbc.JDBCParameter;
 import common.jdbc.JDBCUtils;
 import lombok.Data;
@@ -31,9 +33,7 @@ public class Request {
 
 	public void execute() throws Exception {
 		try {
-			System.out.println("@@@@@@@@@@@@@");
 			for (val x : query()) {
-				System.out.println("********************");
 				(m_current = x).execute();
 			}
 		} finally {
@@ -75,9 +75,29 @@ public class Request {
 	public static class _Current {
 		Long m_id;
 		String m_inputSheet;
+		Sheet m_sheet;
+
+		public Sheet getSheet() {
+			if (m_sheet == null) {
+				val job = Job.getCurrent();
+				m_sheet = job.getWorkbook().getSheet(getInputSheet());
+			}
+
+			return m_sheet;
+		}
 
 		public void execute() throws Exception {
 			log.info(String.format("Request[id=%d input=%s]", getId(), getInputSheet()));
+
+			try {
+				load();
+			} catch (Exception e) {
+				log.error("", e);
+			}
+		}
+
+		void load() throws Exception {
+			Load.getInstance().execute();
 		}
 	}
 }

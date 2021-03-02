@@ -86,9 +86,12 @@ public class Job {
 		public void execute() throws Exception {
 			log.info(String.format("Job[id=%d input=%s]", getId(), getInputFile()));
 
-			request();
-
-			log.info("Done!!");
+			try {
+				request();
+				log.info("Done!!");
+			} catch (Exception e) {
+				log.error("", e);
+			}
 		}
 
 		void request() throws Exception {

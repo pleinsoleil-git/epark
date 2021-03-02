@@ -48,7 +48,6 @@ public class Load {
 		}
 
 		void load() throws Exception {
-			Load.getInstance().execute();
 		}
 	}
 }
