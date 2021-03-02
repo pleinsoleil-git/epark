@@ -1,5 +1,6 @@
 package app.nakajo.a00100.job.a00100.load.job.request.load;
 
+import app.nakajo.a00100.job.a00100.load.job.request.DataType;
 import lombok.Data;
 import lombok.experimental.Accessors;
 
