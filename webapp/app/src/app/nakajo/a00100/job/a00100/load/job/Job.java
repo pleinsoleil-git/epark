@@ -8,6 +8,7 @@ import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.ss.usermodel.WorkbookFactory;
 
 import app.nakajo.a00100.job.a00100.load.job.request.Request;
+import common.app.job.app.JobStatus;
 import common.jdbc.JDBCUtils;
 import lombok.Data;
 import lombok.val;
@@ -71,6 +72,7 @@ public class Job {
 		Long m_id;
 		String m_inputFile;
 		Workbook m_workbook;
+		Status m_status;
 
 		public Workbook getWorkbook() {
 			if (m_workbook == null) {
@@ -84,12 +86,24 @@ public class Job {
 			return m_workbook;
 		}
 
+		public Status getStatus() {
+			return (m_status == null ? m_status = new Status() : m_status);
+		}
+
 		public void execute() throws Exception {
 			log.info(String.format("Job[id=%d input=%s]", getId(), getInputFile()));
 
-			try {
-				request();
-				log.info("Done!!");
+			try (val status = getStatus()) {
+				try {
+					request();
+					status.setStatus(JobStatus.SUCCESS);
+					log.info("Done!!");
+				} catch (Exception e) {
+					log.error("", e);
+					status.setStatus(JobStatus.FAILD);
+					status.setMessage(e.getMessage());
+					JDBCUtils.commit();
+				}
 			} catch (Exception e) {
 				log.error("", e);
 			}
