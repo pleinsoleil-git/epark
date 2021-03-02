@@ -4,7 +4,6 @@ DROP TABLE i_usage_history CASCADE;
 CREATE UNLOGGED TABLE i_usage_history
 (
 	id								BIGSERIAL,
-	data_type						VARCHAR,	-- VOC：VOCデータ（メールアドレスのみ）：Silent
 	usage_history_id				VARCHAR,	-- id
 	media_id						VARCHAR,	-- media_id
 	service							VARCHAR,	-- サービス
