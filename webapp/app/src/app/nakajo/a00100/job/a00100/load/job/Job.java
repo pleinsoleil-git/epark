@@ -34,7 +34,7 @@ public class Job {
 
 	public void execute() throws Exception {
 		try {
-			//delete();
+			// delete();
 
 			for (val x : query()) {
 				(m_current = x).execute();
