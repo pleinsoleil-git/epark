@@ -5,6 +5,7 @@ CREATE TABLE j_export_job
 (
 	id						BIGSERIAL,
 	foreign_id				BIGINT				REFERENCES j_job( id ) ON DELETE CASCADE,
+	usage_month				DATE[],
 	output_file				VARCHAR( 1024 ),
 	deleted					BOOLEAN			DEFAULT FALSE,
 	created_at				TIMESTAMP( 0 )		DEFAULT CURRENT_TIMESTAMP,
