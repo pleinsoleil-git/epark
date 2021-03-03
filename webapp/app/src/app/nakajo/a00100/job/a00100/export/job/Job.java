@@ -2,6 +2,7 @@ package app.nakajo.a00100.job.a00100.export.job;
 
 import java.io.File;
 import java.util.Collection;
+import java.util.Date;
 
 import org.apache.commons.dbutils.handlers.BeanListHandler;
 import org.apache.poi.ss.usermodel.Workbook;
@@ -10,6 +11,7 @@ import org.apache.poi.ss.usermodel.WorkbookFactory;
 import app.nakajo.a00100.job.a00100.export.job.request.Request;
 import common.app.job.app.JobStatus;
 import common.jdbc.JDBCUtils;
+import common.lang.time.DateFormatUtils;
 import lombok.Data;
 import lombok.val;
 import lombok.experimental.Accessors;
@@ -58,6 +60,8 @@ public class Job {
 	Collection<_Current> query() throws Exception {
 		String sql;
 		sql = "SELECT j10.id,\n"
+				+ "j10.usage_month[ 1 ] AS usageMonthFrom,\n"
+				+ "j10.usage_month[ 2 ] AS usageMonthTo,\n"
 				+ "j10.output_file AS outputFile\n"
 			+ "FROM j_export_job AS j10\n"
 			+ "WHERE j10.deleted = FALSE\n"
@@ -76,6 +80,8 @@ public class Job {
 	@Data
 	public static class _Current {
 		Long m_id;
+		Date m_usageMonthFrom;
+		Date m_usageMonthTo;
 		String m_outputFile;
 		Workbook m_workbook;
 		Status m_status;
@@ -97,7 +103,11 @@ public class Job {
 		}
 
 		public void execute() throws Exception {
-			log.info(String.format("Job[id=%d output=%s]", getId(), getOutputFile()));
+			log.info(String.format("Job[id=%d from=%s to=%s output=%s]",
+					getId(),
+					DateFormatUtils.MONTH_FORMAT.format(getUsageMonthFrom()),
+					DateFormatUtils.MONTH_FORMAT.format(getUsageMonthTo()),
+					getOutputFile()));
 
 			try (val status = getStatus()) {
 				try {

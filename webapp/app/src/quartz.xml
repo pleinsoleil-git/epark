@@ -5,14 +5,14 @@
 	version="1.8">
 	<schedule>
 		<job>
-			<name>nakajo.a00100.job.a00100.export</name>
+			<name>test</name>
 			<description>リピート率</description>
 			<job-class>app.nakajo.a00100.job.a00100.export.Action</job-class>
 		</job>
 		<trigger>
 			<simple>
-				<name>nakajo.a00100.job.a00100.export</name>
-				<job-name>nakajo.a00100.job.a00100.export</job-name>
+				<name>test</name>
+				<job-name>test</job-name>
 				<repeat-count>0</repeat-count>
 				<repeat-interval>2000</repeat-interval>
 			</simple>
