@@ -13,6 +13,7 @@ import app.nakajo.a00100.job.a00100.export.job.Job;
 import common.jdbc.JDBCParameter;
 import common.jdbc.JDBCUtils;
 import common.lang.StringUtils;
+import common.poi.CellUtils;
 import lombok.Data;
 import lombok.val;
 import lombok.experimental.Accessors;
@@ -87,10 +88,24 @@ class All {
 				}
 			}.entrySet();
 
-			System.out.println("aaaaaaaaaa");
-
 			for (int i = 0; i < captions.length; i++) {
 				for (val rec : query(captions[i], evaluations[i])) {
+					val row = CellUtil.getRow(rowNum++, sheet);
+
+					// --------------------------------------------------
+					// スタイルを適応する
+					// --------------------------------------------------
+					for (val x : styles) {
+						CellUtils.setCellStyle(row, x.getKey(), x.getValue());
+					}
+
+					// --------------------------------------------------
+					// 値をセット
+					// --------------------------------------------------
+					int cellNum = FIRST_CELL_NUM;
+					for (val x : rec) {
+						CellUtils.setCellValue(row, cellNum++, x);
+					}
 				}
 			}
 		}
@@ -99,13 +114,13 @@ class All {
 			String sql;
 			sql = "WITH RECURSIVE s_params AS\n"
 				+ "(\n"
-					+ "SELECT CAST( ? AS VARCHAR ) AS service,\n"
-						+ "CAST( ? AS VARCHAR ) AS caption,\n"
-						+ "CAST( ? AS DATE ) AS usage_month_from,\n"
-						+ "CAST( ? AS DATE ) AS usage_month_to,\n"
+					+ "SELECT ?::VARCHAR AS service,\n"
+						+ "?::VARCHAR AS caption,\n"
+						+ "?::DATE AS usage_month_from,\n"
+						+ "?::DATE AS usage_month_to,\n"
 						+ "ARRAY\n"
 						+ "[\n"
-							+ StringUtils.repeat("CAST( ? AS VARCHAR )", ",\n", evaluations.length)
+							+ StringUtils.repeat("?::VARCHAR", ",\n", evaluations.length)
 						+ "] AS evaluation\n"
 				+ "),\n"
 				+ "s_usage_month AS\n"
