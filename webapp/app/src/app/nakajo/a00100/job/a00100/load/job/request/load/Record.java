@@ -5,7 +5,7 @@ import lombok.experimental.Accessors;
 
 @Data
 @Accessors(prefix = "m_", chain = false)
-class Record {
+public class Record {
 	String m_usageHistoryId;
 	String m_mediaId;
 	String m_service;

@@ -7,7 +7,7 @@ import app.nakajo.a00100.job.a00100.load.job.request.Request;
 import common.lang.StringUtils;
 import lombok.val;
 
-class Reader implements AutoCloseable {
+public class Reader implements AutoCloseable {
 	int m_rowNum = 1;
 	DataFormatter m_formatter;
 
