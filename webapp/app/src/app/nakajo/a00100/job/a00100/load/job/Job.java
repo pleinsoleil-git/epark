@@ -1,11 +1,8 @@
 package app.nakajo.a00100.job.a00100.load.job;
 
-import java.io.File;
 import java.util.Collection;
 
 import org.apache.commons.dbutils.handlers.BeanListHandler;
-import org.apache.poi.ss.usermodel.Workbook;
-import org.apache.poi.ss.usermodel.WorkbookFactory;
 
 import app.nakajo.a00100.job.a00100.load.job.request.Request;
 import common.app.job.app.JobStatus;
@@ -57,8 +54,7 @@ public class Job {
 
 	Collection<_Current> query() throws Exception {
 		String sql;
-		sql = "SELECT j10.id,\n"
-				+ "j10.input_file AS inputFile\n"
+		sql = "SELECT j10.id\n"
 			+ "FROM j_load_job AS j10\n"
 			+ "WHERE j10.deleted = FALSE\n"
 			+ "AND NOT EXISTS\n"
@@ -76,28 +72,14 @@ public class Job {
 	@Data
 	public static class _Current {
 		Long m_id;
-		String m_inputFile;
-		Workbook m_workbook;
 		Status m_status;
-
-		public Workbook getWorkbook() {
-			if (m_workbook == null) {
-				try {
-					m_workbook = WorkbookFactory.create(new File(getInputFile()));
-				} catch (Exception e) {
-					log.error("", e);
-				}
-			}
-
-			return m_workbook;
-		}
 
 		public Status getStatus() {
 			return (m_status == null ? m_status = new Status() : m_status);
 		}
 
 		public void execute() throws Exception {
-			log.info(String.format("Job[id=%d input=%s]", getId(), getInputFile()));
+			log.info(String.format("Job[id=%d]", getId()));
 
 			try (val status = getStatus()) {
 				try {
