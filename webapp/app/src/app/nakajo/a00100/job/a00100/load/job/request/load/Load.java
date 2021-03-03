@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 import app.nakajo.a00100.job.a00100.load.job.request.load.entry.Entry;
-import app.nakajo.a00100.job.a00100.load.job.request.load.report.Report;
 import common.jdbc.JDBCUtils;
 import lombok.Data;
 import lombok.val;
@@ -30,26 +29,11 @@ public class Load {
 
 	public void execute() throws Exception {
 		try {
-			delete();
-
 			for (val x : query()) {
 				(m_current = x).execute();
 			}
-
-			report();
 		} finally {
 			m_instance = null;
-		}
-	}
-
-	void delete() throws Exception {
-		for (val x : new String[] {
-				"t_usage_history",
-				"t_repeat_report",
-		}) {
-			log.info(String.format("Delete %s", x));
-			JDBCUtils.execute(String.format("TRUNCATE TABLE %s CASCADE", x));
-			JDBCUtils.commit();
 		}
 	}
 
@@ -59,10 +43,6 @@ public class Load {
 				add(new _Current());
 			}
 		};
-	}
-
-	void report() throws Exception {
-		Report.getInstance().execute();
 	}
 
 	@Data
