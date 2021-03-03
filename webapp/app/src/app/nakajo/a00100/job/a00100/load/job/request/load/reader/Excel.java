@@ -1,13 +1,14 @@
-package app.nakajo.a00100.job.a00100.load.job.request.load;
+package app.nakajo.a00100.job.a00100.load.job.request.load.reader;
 
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.DataFormatter;
 
 import app.nakajo.a00100.job.a00100.load.job.request.Request;
+import app.nakajo.a00100.job.a00100.load.job.request.load.Record;
 import common.lang.StringUtils;
 import lombok.val;
 
-public class Reader implements AutoCloseable {
+class Excel extends Reader {
 	int m_rowNum = 1;
 	DataFormatter m_formatter;
 
@@ -19,7 +20,8 @@ public class Reader implements AutoCloseable {
 		return StringUtils.trim(m_formatter.formatCellValue(cell));
 	}
 
-	Record read() throws Exception {
+	@Override
+	public Record read() throws Exception {
 		val request = Request.getCurrent();
 		val sheet = request.getSheet();
 		val row = sheet.getRow(m_rowNum++);
@@ -32,85 +34,85 @@ public class Reader implements AutoCloseable {
 
 						switch (cell.getColumnIndex()) {
 						case 0:
-							m_usageHistoryId = value;
+							setUsageHistoryId(value);
 							break;
 						case 1:
-							m_mediaId = value;
+							setMediaId(value);
 							break;
 						case 2:
-							m_service = value;
+							setService(value);
 							break;
 						case 3:
-							m_usageDate = value;
+							setUsageDate(value);
 							break;
 						case 4:
-							m_memberId = value;
+							setMemberId(value);
 							break;
 						case 5:
-							m_evaluation = value;
+							setEvaluation(value);
 							break;
 						case 6:
-							m_usageType = value;
+							setUsageType(value);
 							break;
 						case 7:
-							m_reserve1 = value;
+							setReserve1(value);
 							break;
 						case 8:
-							m_reserve2 = value;
+							setReserve2(value);
 							break;
 						case 9:
-							m_usageWithinLast2Year = value;
+							setUsageWithinLast2Year(value);
 							break;
 						case 10:
-							m_usageWithinLast1Year = value;
+							setUsageWithinLast1Year(value);
 							break;
 						case 11:
-							m_usageWithinLast6Month = value;
+							setUsageWithinLast6Month(value);
 							break;
 						case 12:
-							m_usageWithinAfter30Day = value;
+							setUsageWithinAfter30Day(value);
 							break;
 						case 13:
-							m_usageWithinAfter60Day = value;
+							setUsageWithinAfter60Day(value);
 							break;
 						case 14:
-							m_usageWithinAfter90Day = value;
+							setUsageWithinAfter90Day(value);
 							break;
 						case 15:
-							m_usageWithinAfter120Day = value;
+							setUsageWithinAfter120Day(value);
 							break;
 						case 16:
-							m_usageWithinAfter150Day = value;
+							setUsageWithinAfter150Day(value);
 							break;
 						case 17:
-							m_usageWithinAfter180Day = value;
+							setUsageWithinAfter180Day(value);
 							break;
 						case 18:
-							m_usageWithinAfter1Year = value;
+							setUsageWithinAfter1Year(value);
 							break;
 						case 19:
-							m_usageWithinAfter2Year = value;
+							setUsageWithinAfter2Year(value);
 							break;
 						case 20:
-							m_allUsageWithinLast6Month = value;
+							setAllUsageWithinLast6Month(value);
 							break;
 						case 21:
-							m_allUsageWithinAfter30Day = value;
+							setAllUsageWithinAfter30Day(value);
 							break;
 						case 22:
-							m_allUsageWithinAfter60Day = value;
+							setAllUsageWithinAfter60Day(value);
 							break;
 						case 23:
-							m_allUsageWithinAfter90Day = value;
+							setAllUsageWithinAfter90Day(value);
 							break;
 						case 24:
-							m_allUsageWithinAfter120Day = value;
+							setAllUsageWithinAfter120Day(value);
 							break;
 						case 25:
-							m_allUsageWithinAfter150Day = value;
+							setAllUsageWithinAfter150Day(value);
 							break;
 						case 26:
-							m_allUsageWithinAfter180Day = value;
+							setAllUsageWithinAfter180Day(value);
 							break;
 						default:
 							break;
