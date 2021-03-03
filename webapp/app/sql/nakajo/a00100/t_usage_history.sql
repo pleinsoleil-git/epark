@@ -5,8 +5,6 @@ CREATE TABLE t_usage_history
 (
 	id								BIGSERIAL,
 	data_type						VARCHAR( 512 ),	-- VOC：VOCデータ（メールアドレスのみ）：Silent
-	usage_history_id				NUMERIC,			-- id
-	media_id						NUMERIC,			-- media_id
 	service							VARCHAR( 512 ),	-- サービス
 	usage_date						DATE,				-- 日付
 	member_id						NUMERIC,			-- EPARK会員ID

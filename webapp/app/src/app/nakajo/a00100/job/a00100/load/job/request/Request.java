@@ -10,7 +10,6 @@ import org.apache.poi.ss.usermodel.WorkbookFactory;
 
 import app.nakajo.a00100.job.a00100.load.job.Job;
 import app.nakajo.a00100.job.a00100.load.job.request.load.Load;
-import app.nakajo.a00100.job.a00100.load.job.request.load.report.Report;
 import common.app.job.app.JobStatus;
 import common.jdbc.JDBCParameter;
 import common.jdbc.JDBCUtils;
@@ -43,8 +42,6 @@ public class Request {
 			for (val x : query()) {
 				(m_current = x).execute();
 			}
-
-			report();
 		} finally {
 			m_instance = null;
 		}
@@ -53,16 +50,11 @@ public class Request {
 	void delete() throws Exception {
 		for (val x : new String[] {
 				"t_usage_history",
-				"t_repeat_report",
 		}) {
 			log.info(String.format("Delete %s", x));
 			JDBCUtils.execute(String.format("TRUNCATE TABLE %s CASCADE", x));
 			JDBCUtils.commit();
 		}
-	}
-
-	void report() throws Exception {
-		Report.getInstance().execute();
 	}
 
 	Collection<_Current> query() throws Exception {
