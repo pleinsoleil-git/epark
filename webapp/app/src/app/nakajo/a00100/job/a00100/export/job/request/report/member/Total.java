@@ -8,22 +8,22 @@ import lombok.val;
 import lombok.experimental.Accessors;
 
 @Accessors(prefix = "m_", chain = false)
-public class Member {
-	static Member m_instance;
+class Total {
+	static Total m_instance;
 	_Current m_current;
 
-	Member() {
+	Total() {
 	}
 
-	public static Member getInstance() {
-		return (m_instance == null ? m_instance = new Member() : m_instance);
+	static Total getInstance() {
+		return (m_instance == null ? m_instance = new Total() : m_instance);
 	}
 
-	public static _Current getCurrent() {
+	static _Current getCurrent() {
 		return getInstance().m_current;
 	}
 
-	public void execute() throws Exception {
+	void execute() throws Exception {
 		try {
 			for (val x : query()) {
 				(m_current = x).execute();
@@ -42,13 +42,8 @@ public class Member {
 	}
 
 	@Data
-	public static class _Current {
-		public void execute() throws Exception {
-			all();
-		}
-
-		void all() throws Exception {
-			All.getInstance().execute();
+	static class _Current {
+		void execute() throws Exception {
 		}
 	}
 }
