@@ -185,7 +185,7 @@ public class Load {
 
 				try (val reader = new Reader()) {
 					for (boolean done = false; done == false;) {
-						for (int rowNum = 0; rowNum < 1000; rowNum++) {
+						for (int rowNum = 0; rowNum < 10000; rowNum++) {
 							val rec = reader.read();
 							if (rec == null) {
 								done = true;
