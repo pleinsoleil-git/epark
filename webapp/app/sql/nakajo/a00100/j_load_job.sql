@@ -5,7 +5,6 @@ CREATE TABLE j_load_job
 (
 	id						BIGSERIAL,
 	foreign_id				BIGINT				REFERENCES j_job( id ) ON DELETE CASCADE,
-	input_file				VARCHAR( 1024 ),
 	deleted					BOOLEAN			DEFAULT FALSE,
 	created_at				TIMESTAMP( 0 )		DEFAULT CURRENT_TIMESTAMP,
 	PRIMARY KEY
