@@ -5,6 +5,7 @@ import java.util.Collection;
 import org.apache.commons.dbutils.handlers.BeanListHandler;
 
 import app.nakajo.a00100.job.a00100.export.job.Job;
+import app.nakajo.a00100.job.a00100.export.job.request.report.Report;
 import common.app.job.app.JobStatus;
 import common.jdbc.JDBCParameter;
 import common.jdbc.JDBCUtils;
@@ -81,7 +82,7 @@ public class Request {
 		public void execute() throws Exception {
 			try (val status = getStatus()) {
 				try {
-System.out.println("aaaaaaaaaaaa");
+					report();
 					status.setStatus(JobStatus.SUCCESS);
 				} catch (Exception e) {
 					log.error("", e);
@@ -92,6 +93,10 @@ System.out.println("aaaaaaaaaaaa");
 			} catch (Exception e) {
 				log.error("", e);
 			}
+		}
+
+		void report() throws Exception {
+			Report.getInstance().execute();
 		}
 	}
 }
