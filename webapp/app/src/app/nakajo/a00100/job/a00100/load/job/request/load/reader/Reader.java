@@ -14,6 +14,8 @@ public abstract class Reader implements AutoCloseable {
 		val file = new File(request.getInputFile());
 
 		switch (FileNameUtils.getExtension(file.getName())) {
+		case "txt":
+		case "csv":
 		case "tsv":
 			return new CSVReader();
 		case "xlsx":
