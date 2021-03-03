@@ -203,7 +203,7 @@ public class Load {
 							stmt.addBatch();
 						}
 
-						rowNums += stmt.executeBatch().length;
+						rowNums += stmt.executeBatchAndClear().length;
 						JDBCUtils.commit();
 					}
 				}
