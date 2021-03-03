@@ -139,7 +139,7 @@ public class Request {
 					getInputSheet()));
 
 			try (val status = getStatus()) {
-				try (val book = getWorkbook()) {
+				try {
 					load();
 					status.setStatus(JobStatus.SUCCESS);
 				} catch (Exception e) {
