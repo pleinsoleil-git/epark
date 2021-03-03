@@ -9,6 +9,7 @@ import app.nakajo.a00100.job.a00100.load.job.request.Request;
 import app.nakajo.a00100.job.a00100.load.job.request.load.Record;
 import common.io.FileUtils;
 import common.lang.StandardCharsets;
+import common.lang.StringUtils;
 import lombok.val;
 
 class CSVReader extends Reader {
@@ -16,7 +17,7 @@ class CSVReader extends Reader {
 	BufferedReader m_reader;
 
 	CSVReader() {
-		m_format = CSVFormat.DEFAULT.withDelimiter('\t');
+		m_format = CSVFormat.DEFAULT;
 	}
 
 	BufferedReader getReader() throws Exception {
@@ -28,7 +29,10 @@ class CSVReader extends Reader {
 			// --------------------------------------------------
 			// ヘッダーをスキップ
 			// --------------------------------------------------
-			m_reader.readLine();
+			val str = m_reader.readLine();
+			if (StringUtils.indexOf(str, StringUtils.TAB) >= 0) {
+				m_format = m_format.withDelimiter(StringUtils.TAB);
+			}
 		}
 
 		return m_reader;

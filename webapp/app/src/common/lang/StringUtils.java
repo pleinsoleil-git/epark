@@ -5,6 +5,8 @@ import java.util.HashMap;
 import lombok.val;
 
 public class StringUtils extends org.apache.commons.lang3.StringUtils {
+	public static final char TAB = '\t';
+
 	public static <T> boolean isTrimEmpty(final T value) {
 		return (value == null ? true : isEmpty(trim(value.toString())));
 	}
