@@ -1,9 +1,12 @@
 package app.nakajo.a00100.job.a00100.load.job.request;
 
+import java.io.File;
 import java.util.Collection;
 
 import org.apache.commons.dbutils.handlers.BeanListHandler;
 import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.ss.usermodel.WorkbookFactory;
 
 import app.nakajo.a00100.job.a00100.load.job.Job;
 import app.nakajo.a00100.job.a00100.load.job.request.load.Load;
@@ -50,6 +53,7 @@ public class Request {
 			+ ")\n"
 			+ "SELECT j10.id,\n"
 				+ "j10.data_type AS dataType,\n"
+				+ "j10.input_file AS inputFile,\n"
 				+ "j10.input_sheet AS inputSheet\n"
 			+ "FROM s_params AS t10\n"
 			+ "INNER JOIN j_load_request AS j10\n"
@@ -77,14 +81,27 @@ public class Request {
 	public static class _Current {
 		Long m_id;
 		String m_dataType;
+		String m_inputFile;
 		String m_inputSheet;
+		Workbook m_workbook;
 		Sheet m_sheet;
 		Status m_status;
 
+		public Workbook getWorkbook() {
+			if (m_workbook == null) {
+				try {
+					m_workbook = WorkbookFactory.create(new File(getInputFile()));
+				} catch (Exception e) {
+					log.error("", e);
+				}
+			}
+
+			return m_workbook;
+		}
+
 		public Sheet getSheet() {
 			if (m_sheet == null) {
-				val job = Job.getCurrent();
-				m_sheet = job.getWorkbook().getSheet(getInputSheet());
+				m_sheet = getWorkbook().getSheet(getInputSheet());
 			}
 
 			return m_sheet;
@@ -95,9 +112,10 @@ public class Request {
 		}
 
 		public void execute() throws Exception {
-			log.info(String.format("Request[id=%d type=%s input=%s]",
+			log.info(String.format("Request[id=%d type=%s file=%s sheet=%s]",
 					getId(),
 					getDataType(),
+					getInputFile(),
 					getInputSheet()));
 
 			try (val status = getStatus()) {
