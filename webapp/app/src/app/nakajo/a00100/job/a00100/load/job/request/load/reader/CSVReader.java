@@ -27,7 +27,7 @@ class CSVReader extends Reader {
 			m_reader = new BufferedReader(reader);
 
 			// --------------------------------------------------
-			// ヘッダーをスキップ
+			// ヘッダーから区切り文字を推測
 			// --------------------------------------------------
 			val str = m_reader.readLine();
 			if (StringUtils.indexOf(str, StringUtils.TAB) >= 0) {
