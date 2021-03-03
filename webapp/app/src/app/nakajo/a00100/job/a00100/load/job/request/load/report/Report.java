@@ -1,4 +1,4 @@
-package app.nakajo.a00100.job.a00100.load.job.request.report;
+package app.nakajo.a00100.job.a00100.load.job.request.load.report;
 
 import java.util.ArrayList;
 import java.util.Collection;

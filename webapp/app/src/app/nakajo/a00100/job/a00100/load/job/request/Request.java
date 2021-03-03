@@ -7,7 +7,7 @@ import org.apache.poi.ss.usermodel.Sheet;
 
 import app.nakajo.a00100.job.a00100.load.job.Job;
 import app.nakajo.a00100.job.a00100.load.job.request.load.Load;
-import app.nakajo.a00100.job.a00100.load.job.request.report.Report;
+import app.nakajo.a00100.job.a00100.load.job.request.load.report.Report;
 import common.app.job.app.JobStatus;
 import common.jdbc.JDBCParameter;
 import common.jdbc.JDBCUtils;
