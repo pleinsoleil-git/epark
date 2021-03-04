@@ -114,10 +114,8 @@ class All {
 			String sql;
 			sql = "WITH RECURSIVE s_params AS\n"
 				+ "(\n"
-					+ "SELECT ?::VARCHAR AS service,\n"
+					+ "SELECT ?::BIGINT AS job_id,\n"
 						+ "?::VARCHAR AS caption,\n"
-						+ "?::DATE AS usage_month_from,\n"
-						+ "?::DATE AS usage_month_to,\n"
 						+ "ARRAY\n"
 						+ "[\n"
 							+ StringUtils.repeat("?::VARCHAR", ",\n", evaluations.length)
@@ -125,9 +123,11 @@ class All {
 				+ "),\n"
 				+ "s_usage_month AS\n"
 				+ "(\n"
-					+ "SELECT t10.usage_month_from AS usage_month,\n"
-						+ "t10.usage_month_to\n"
+					+ "SELECT FIRST_DAY( j10.usage_date[ 1 ] ) AS usage_month,\n"
+						+ "LAST_DAY( j10.usage_date[ 2 ] ) AS usage_month_to\n"
 					+ "FROM s_params AS t10\n"
+					+ "INNER JOIN j_export_job AS j10\n"
+						+ "ON j10.id = t10.job_id\n"
 					+ "UNION ALL\n"
 					+ "SELECT ADD_MONTHS( t10.usage_month, 1 ),\n"
 						+ "t10.usage_month_to\n"
@@ -193,22 +193,20 @@ class All {
 						+ "SELECT t20.usage_month,\n"
 							+ "ARRAY\n"
 							+ "[\n"
-								+ "SUM( t20.all_usage_within_last_6_month_count )\n"
+								+ "SUM( t20.all_usage_within_last_6_month )\n"
 							+ "] AS all_usage_within_last,\n"
 							+ "ARRAY\n"
 							+ "[\n"
-								+ "SUM( t20.all_usage_within_after_30_day_count ),\n"
-								+ "SUM( t20.all_usage_within_after_60_day_count ),\n"
-								+ "SUM( t20.all_usage_within_after_90_day_count ),\n"
-								+ "SUM( t20.all_usage_within_after_120_day_count ),\n"
-								+ "SUM( t20.all_usage_within_after_150_day_count ),\n"
-								+ "SUM( t20.all_usage_within_after_180_day_count )\n"
+								+ "SUM( t20.all_usage_within_after_30_day ),\n"
+								+ "SUM( t20.all_usage_within_after_60_day ),\n"
+								+ "SUM( t20.all_usage_within_after_90_day ),\n"
+								+ "SUM( t20.all_usage_within_after_120_day ),\n"
+								+ "SUM( t20.all_usage_within_after_150_day ),\n"
+								+ "SUM( t20.all_usage_within_after_180_day )\n"
 							+ "] AS all_usage_within_after\n"
 						+ "FROM s_params AS t10\n"
-						+ "INNER JOIN t_repeat_report AS t20\n"
-							+ "ON t20.service = t10.service\n"
-							+ "AND t20.usage_month BETWEEN t10.usage_month_from AND t10.usage_month_to\n"
-							+ "AND t20.evaluation = ANY( t10.evaluation )\n"
+						+ "INNER JOIN tmp_repeat_report AS t20\n"
+							+ "ON t20.evaluation = ANY( t10.evaluation )\n"
 						+ "GROUP BY 1\n"
 					+ ") AS t10\n"
 				+ ") AS t30\n"
@@ -220,10 +218,8 @@ class All {
 					new JDBCParameter() {
 						{
 							val job = Job.getCurrent();
-							add("EPARK会員情報");
+							add(job.getId());
 							add(caption);
-							add(job.getUsageMonthFrom());
-							add(job.getUsageMonthTo());
 
 							for (val x : evaluations) {
 								add(x);
