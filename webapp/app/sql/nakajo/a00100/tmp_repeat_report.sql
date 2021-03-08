@@ -4,10 +4,9 @@ DROP TABLE tmp_repeat_report CASCADE;
 CREATE UNLOGGED TABLE tmp_repeat_report
 (
 	id										BIGSERIAL,
-	data_type								VARCHAR( 512 ),	-- VOC：VOCデータ（メールアドレスのみ）：Silent
 	usage_month								DATE,				-- 日付
 	evaluation								VARCHAR( 512 ),	-- 評価
-	usage_type								VARCHAR( 512 ),	-- 種別
+	channel									VARCHAR( 512 ),	-- 種別
 	usage_within_last_2_year				NUMERIC,			-- 過去2年以内利用回数件数
 	usage_within_last_1_year				NUMERIC,			-- 過去1年以内利用回数件数
 	usage_within_last_6_month				NUMERIC,			-- 過去6ヵ月利用回数件数
