@@ -3,6 +3,7 @@ package app.nakajo.a00100.job.a00100.load.job.request.load.entry;
 import java.util.ArrayList;
 import java.util.Collection;
 
+import app.nakajo.a00100.job.a00100.load.job.request.DataType;
 import app.nakajo.a00100.job.a00100.load.job.request.Request;
 import common.jdbc.JDBCParameter;
 import common.jdbc.JDBCUtils;
@@ -56,7 +57,8 @@ public class Entry {
 			String sql;
 			sql = "WITH s_params AS\n"
 				+ "(\n"
-					+ "SELECT ?::VARCHAR AS data_type\n"
+					+ "SELECT ?::VARCHAR AS data_type,\n"
+						+ "?::VARCHAR AS silent\n"
 				+ ")\n"
 				+ "INSERT INTO t_usage_history\n"
 				+ "(\n"
@@ -65,7 +67,7 @@ public class Entry {
 					+ "usage_date,\n"
 					+ "member_id,\n"
 					+ "evaluation,\n"
-					+ "usage_type,\n"
+					+ "channel,\n"
 					+ "usage_within_last_2_year,\n"
 					+ "usage_within_last_1_year,\n"
 					+ "usage_within_last_6_month,\n"
@@ -90,7 +92,11 @@ public class Entry {
 					+ "t20.usage_date::DATE,\n"
 					+ "t20.member_id::NUMERIC,\n"
 					+ "t20.evaluation,\n"
-					+ "t20.usage_type,\n"
+					+ "CASE\n"
+						+ "WHEN t10.data_type = t10.silent THEN SPLIT_PART( t20.channel, ':', 1 )\n"
+						+ "WHEN t20.channel LIKE '%問い合わせ%' THEN '問い合わせ'\n"
+						+ "ELSE t20.channel\n"
+					+ "END AS channel,\n"
 					+ "COALESCE( t20.usage_within_last_2_year::NUMERIC, 0 ) AS usage_within_last_2_year,\n"
 					+ "COALESCE( t20.usage_within_last_1_year::NUMERIC, 0 ) AS usage_within_last_1_year,\n"
 					+ "COALESCE( t20.usage_within_last_6_month::NUMERIC, 0 ) AS usage_within_last_6_month,\n"
@@ -117,6 +123,7 @@ public class Entry {
 				{
 					val request = Request.getCurrent();
 					add(request.getDataType());
+					add(DataType.SILENT.name());
 				}
 			});
 			JDBCUtils.commit();
