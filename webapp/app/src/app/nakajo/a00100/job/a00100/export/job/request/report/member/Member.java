@@ -137,9 +137,10 @@ public class Member {
 					+ "INNER JOIN t_usage_history AS t20\n"
 						+ "ON t20.service = t10.service\n"
 						+ "AND t20.usage_date BETWEEN j10.usage_date[ 1 ] AND j10.usage_date[ 2 ]\n"
-					+ "WHERE t20.all_usage_within_last_6_month > 0\n"
 					+ "GROUP BY 1, 2, 3, 4\n"
 				+ ") AS t10\n"
+				+ "WHERE t10.all_usage_within_last_6_month > 0\n"
+				+ "AND t10.all_usage_within_after_60_day > 0\n"
 				+ "GROUP BY 1, 2, 3\n";
 
 			val rowNums = JDBCUtils.execute(sql,
