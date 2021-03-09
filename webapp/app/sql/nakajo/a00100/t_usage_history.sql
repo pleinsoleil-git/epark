@@ -10,6 +10,8 @@ CREATE TABLE t_usage_history
 	member_id						NUMERIC,			-- EPARK会員ID
 	evaluation						VARCHAR( 512 ),	-- 評価
 	channel							VARCHAR( 512 ),	-- 種別
+	reserve_1						VARCHAR( 512 ),	-- 予備1
+	reserve_2						VARCHAR( 512 ),	-- 予備2
 	usage_within_last_2_year		NUMERIC,			-- 過去2年以内利用回数
 	usage_within_last_1_year		NUMERIC,			-- 過去1年以内利用回数
 	usage_within_last_6_month		NUMERIC,			-- 過去6ヵ月利用回数
