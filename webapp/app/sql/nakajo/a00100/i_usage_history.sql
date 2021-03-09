@@ -11,6 +11,8 @@ CREATE UNLOGGED TABLE i_usage_history
 	member_id						VARCHAR,	-- EPARK会員ID
 	evaluation						VARCHAR,	-- 評価
 	channel							VARCHAR,	-- 種別
+	reserve_1						VARCHAR,	-- 予備1
+	reserve_2						VARCHAR,	-- 予備2
 	usage_within_last_2_year		VARCHAR,	-- 過去2年以内利用回数
 	usage_within_last_1_year		VARCHAR,	-- 過去1年以内利用回数
 	usage_within_last_6_month		VARCHAR,	-- 過去6ヵ月利用回数
