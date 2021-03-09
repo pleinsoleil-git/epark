@@ -12,7 +12,7 @@ import common.lang.StandardCharsets;
 import common.lang.StringUtils;
 import lombok.val;
 
-public class CSVReader extends Readera {
+public class CSVReader implements AutoCloseable {
 	CSVFormat m_format;
 	BufferedReader m_reader;
 
@@ -38,7 +38,6 @@ public class CSVReader extends Readera {
 		return m_reader;
 	}
 
-	@Override
 	public Record read() throws Exception {
 		val str = getReader().readLine();
 		if (str != null) {
