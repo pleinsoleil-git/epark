@@ -7,7 +7,7 @@
 		<job>
 			<name>test</name>
 			<description>リピート率</description>
-			<job-class>app.nakajo.a00100.job.a00100.export.Action</job-class>
+			<job-class>app.nakajo.a00100.job.a00100.load.Action</job-class>
 		</job>
 		<trigger>
 			<simple>
