@@ -9,6 +9,7 @@ import org.apache.poi.ss.usermodel.WorkbookFactory;
 
 import app.nakajo.a00100.job.a00100.export.job.Job;
 import app.nakajo.a00100.job.a00100.export.job.request.report.member.Member;
+import app.nakajo.a00100.job.a00100.export.job.request.report.takeOut.TakeOut;
 import common.poi.WorkbookUtils;
 import lombok.Data;
 import lombok.val;
@@ -72,13 +73,18 @@ public class Report {
 
 		void output() throws Exception {
 			try (val book = getWorkbook()) {
-				member();
+				//member();
+				takeOut();
 				WorkbookUtils.save(book, new File(Job.getCurrent().getOutputFile()));
 			}
 		}
 
 		void member() throws Exception {
 			Member.getInstance().execute();
+		}
+
+		void takeOut() throws Exception {
+			TakeOut.getInstance().execute();
 		}
 	}
 }
