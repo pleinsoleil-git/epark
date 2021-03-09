@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 import app.nakajo.a00100.job.a00100.load.job.request.load.entry.Entry;
-import app.nakajo.a00100.job.a00100.load.job.request.load.reader.Reader;
+import app.nakajo.a00100.job.a00100.load.job.request.load.usage.reader.Reader;
 import common.jdbc.JDBCUtils;
 import lombok.Data;
 import lombok.val;
