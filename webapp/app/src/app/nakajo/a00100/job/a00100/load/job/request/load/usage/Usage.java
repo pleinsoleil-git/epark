@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 import app.nakajo.a00100.job.a00100.load.job.request.load.usage.entry.Entry;
-import app.nakajo.a00100.job.a00100.load.job.request.load.usage.reader.Readera;
+import app.nakajo.a00100.job.a00100.load.job.request.load.usage.reader.CSVReader;
 import common.jdbc.JDBCUtils;
 import lombok.Data;
 import lombok.val;
@@ -164,7 +164,7 @@ public class Usage {
 
 				int rowNums = 0;
 
-				try (val reader = Readera.getInstance()) {
+				try (val reader = new CSVReader()) {
 					for (boolean done = false; done == false;) {
 						for (int rowNum = 0; rowNum < 10000; rowNum++) {
 							val rec = reader.read();
