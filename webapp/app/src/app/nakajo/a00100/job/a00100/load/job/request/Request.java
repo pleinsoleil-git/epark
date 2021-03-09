@@ -64,6 +64,7 @@ public class Request {
 				+ "SELECT ?::BIGINT AS job_id\n"
 			+ ")\n"
 			+ "SELECT j10.id,\n"
+				+ "j10.request_type AS requestType,\n"
 				+ "j10.data_type AS dataType,\n"
 				+ "j10.input_file AS inputFile,\n"
 				+ "j10.input_sheet AS inputSheet\n"
@@ -92,6 +93,7 @@ public class Request {
 	@Data
 	public static class _Current {
 		Long m_id;
+		String m_requestType;
 		String m_dataType;
 		String m_inputFile;
 		String m_inputSheet;
@@ -124,8 +126,9 @@ public class Request {
 		}
 
 		public void execute() throws Exception {
-			log.info(String.format("Request[id=%d type=%s file=%s sheet=%s]",
+			log.info(String.format("Request[id=%d request=%s data=%s file=%s sheet=%s]",
 					getId(),
+					getRequestType(),
 					getDataType(),
 					getInputFile(),
 					getInputSheet()));
