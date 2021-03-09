@@ -16,15 +16,15 @@ import lombok.val;
 import lombok.experimental.Accessors;
 
 @Accessors(prefix = "m_", chain = false)
-class All {
-	static All m_instance;
+class Evaluation {
+	static Evaluation m_instance;
 	_Current m_current;
 
-	All() {
+	Evaluation() {
 	}
 
-	static All getInstance() {
-		return (m_instance == null ? m_instance = new All() : m_instance);
+	static Evaluation getInstance() {
+		return (m_instance == null ? m_instance = new Evaluation() : m_instance);
 	}
 
 	static _Current getCurrent() {

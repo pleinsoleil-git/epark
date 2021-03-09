@@ -69,7 +69,7 @@ public class TakeOut {
 		}
 
 		void all() throws Exception {
-			All.getInstance().execute();
+			Evaluation.getInstance().execute();
 		}
 
 		void delete() throws Exception {
