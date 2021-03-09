@@ -153,7 +153,7 @@ class All {
 					+ "t30.all_usage_within_after_120_day,\n"
 					+ "t30.all_usage_within_after_150_day,\n"
 					+ "t30.all_usage_within_after_180_day,\n"
-					+ "TRUNC( t30.all_usage_within_after_month / t30.all_usage_within_last_month, 3 )\n"
+					+ "TRUNC( t30.all_usage_within_after_month / (t30.all_usage_within_last_month, 3 )\n"
 				+ "FROM s_usage_month AS t10\n"
 				+ "CROSS JOIN s_params AS t20\n"
 				+ "LEFT JOIN\n"
