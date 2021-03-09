@@ -12,11 +12,11 @@ import common.lang.StandardCharsets;
 import common.lang.StringUtils;
 import lombok.val;
 
-public class CSVReader implements AutoCloseable {
+public class Reader implements AutoCloseable {
 	CSVFormat m_format;
 	BufferedReader m_reader;
 
-	public CSVReader() {
+	public Reader() {
 		m_format = CSVFormat.DEFAULT;
 	}
 
