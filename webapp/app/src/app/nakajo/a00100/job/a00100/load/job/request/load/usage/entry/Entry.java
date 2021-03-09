@@ -1,4 +1,4 @@
-package app.nakajo.a00100.job.a00100.load.job.request.load.entry;
+package app.nakajo.a00100.job.a00100.load.job.request.load.usage.entry;
 
 import java.util.ArrayList;
 import java.util.Collection;
