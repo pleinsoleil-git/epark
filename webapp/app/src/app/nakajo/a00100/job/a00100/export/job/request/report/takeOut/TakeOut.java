@@ -69,6 +69,7 @@ public class TakeOut {
 		}
 
 		void all() throws Exception {
+			All.getInstance().execute();
 		}
 
 		void delete() throws Exception {
@@ -182,7 +183,7 @@ public class TakeOut {
 							+ "AND t20.usage_date BETWEEN j10.usage_date[ 1 ] AND j10.usage_date[ 2 ]\n"
 						+ "GROUP BY 1, 2, 3, 4\n"
 					+ ") AS t10\n"
-					+ "WHERE t10.usage_within_last_6_month > 0\n"
+					+ "WHERE t10.all_usage_within_last_6_month > 0\n"
 					+ "GROUP BY 1, 2, 3\n"
 					+ "UNION ALL\n"
 					+ "SELECT t10.channel,\n"
