@@ -49,9 +49,6 @@ public class Request {
 	@Data
 	public static class _Current {
 		public void execute() throws Exception {
-			delete();
-			insert();
-			entry();
 		}
 
 		void entry() throws Exception {
@@ -60,7 +57,7 @@ public class Request {
 
 		void delete() throws Exception {
 			for (val x : new String[] {
-					"i_usage_history",
+					"i_request",
 			}) {
 				log.info(String.format("Delete %s", x));
 				JDBCUtils.execute(String.format("TRUNCATE TABLE %s CASCADE", x));
