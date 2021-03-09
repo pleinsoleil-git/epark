@@ -8,7 +8,6 @@ CREATE TABLE j_load_request
 	request_type			VARCHAR( 512 ),	-- USAGE：REQUEST
 	data_type				VARCHAR( 512 ),	-- VOC：VOCデータ（メールアドレスのみ）：Silent
 	input_file				VARCHAR( 1024 ),
-	input_sheet				VARCHAR( 1024 ),
 	deleted					BOOLEAN			DEFAULT FALSE,
 	created_at				TIMESTAMP( 0 )		DEFAULT CURRENT_TIMESTAMP,
 	PRIMARY KEY
