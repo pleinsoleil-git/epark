@@ -5,7 +5,7 @@ import java.io.File;
 import org.apache.commons.compress.utils.FileNameUtils;
 
 import app.nakajo.a00100.job.a00100.load.job.request.Request;
-import app.nakajo.a00100.job.a00100.load.job.request.load.Record;
+import app.nakajo.a00100.job.a00100.load.job.request.load.usage.Record;
 import lombok.val;
 
 public abstract class Reader implements AutoCloseable {

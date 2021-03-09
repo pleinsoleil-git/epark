@@ -6,7 +6,7 @@ import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVParser;
 
 import app.nakajo.a00100.job.a00100.load.job.request.Request;
-import app.nakajo.a00100.job.a00100.load.job.request.load.Record;
+import app.nakajo.a00100.job.a00100.load.job.request.load.usage.Record;
 import common.io.FileUtils;
 import common.lang.StandardCharsets;
 import common.lang.StringUtils;

@@ -1,4 +1,4 @@
-package app.nakajo.a00100.job.a00100.load.job.request.load;
+package app.nakajo.a00100.job.a00100.load.job.request.load.usage;
 
 import lombok.Data;
 import lombok.experimental.Accessors;

@@ -4,7 +4,7 @@ import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.DataFormatter;
 
 import app.nakajo.a00100.job.a00100.load.job.request.Request;
-import app.nakajo.a00100.job.a00100.load.job.request.load.Record;
+import app.nakajo.a00100.job.a00100.load.job.request.load.usage.Record;
 import common.lang.StringUtils;
 import lombok.val;
 
