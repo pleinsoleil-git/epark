@@ -65,7 +65,7 @@ public class Member {
 		public void execute() throws Exception {
 			delete();
 			insert();
-			//all();
+			all();
 		}
 
 		void all() throws Exception {
