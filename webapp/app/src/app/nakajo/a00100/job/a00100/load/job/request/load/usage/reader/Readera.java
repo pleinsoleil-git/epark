@@ -8,8 +8,8 @@ import app.nakajo.a00100.job.a00100.load.job.request.Request;
 import app.nakajo.a00100.job.a00100.load.job.request.load.usage.Record;
 import lombok.val;
 
-public abstract class Reader implements AutoCloseable {
-	public static Reader getInstance() {
+public abstract class Readera implements AutoCloseable {
+	public static Readera getInstance() {
 		val request = Request.getCurrent();
 		val file = new File(request.getInputFile());
 
@@ -17,9 +17,9 @@ public abstract class Reader implements AutoCloseable {
 		case "txt":
 		case "csv":
 		case "tsv":
-			return new CSVReader();
+			return null;
 		case "xlsx":
-			return new ExcelReader();
+			return null;
 		default:
 			break;
 		}

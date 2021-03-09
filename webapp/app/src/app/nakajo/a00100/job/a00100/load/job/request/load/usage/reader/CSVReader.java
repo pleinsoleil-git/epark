@@ -12,7 +12,7 @@ import common.lang.StandardCharsets;
 import common.lang.StringUtils;
 import lombok.val;
 
-class CSVReader extends Reader {
+class CSVReader extends Readera {
 	CSVFormat m_format;
 	BufferedReader m_reader;
 
