@@ -65,7 +65,7 @@ public class TakeOut {
 		public void execute() throws Exception {
 			delete();
 			insert();
-			//evaluation();
+			evaluation();
 		}
 
 		void evaluation() throws Exception {
@@ -131,19 +131,19 @@ public class TakeOut {
 						+ "t10.channel,\n"
 						+ "t10.usage_month,\n"
 						+ "SUM( t10.last_6_month ) AS last_6_month,\n"
-						+ "SUM( t10.after_30_day ) AS after_30_day,\n"
-						+ "SUM( t10.after_60_day ) AS after_60_day,\n"
-						+ "SUM( t10.after_90_day ) AS after_90_day,\n"
-						+ "SUM( t10.after_120_day ) AS after_120_day,\n"
-						+ "SUM( t10.after_150_day ) AS after_150_day,\n"
-						+ "SUM( t10.after_180_day ) AS after_180_day,\n"
+						+ "SUM( CASE WHEN t10.last_6_month > 0 THEN t10.after_30_day ELSE 0 END ) AS after_30_day,\n"
+						+ "SUM( CASE WHEN t10.last_6_month > 0 THEN t10.after_60_day ELSE 0 END ) AS after_60_day,\n"
+						+ "SUM( CASE WHEN t10.last_6_month > 0 THEN t10.after_90_day ELSE 0 END ) AS after_90_day,\n"
+						+ "SUM( CASE WHEN t10.last_6_month > 0 THEN t10.after_120_day ELSE 0 END ) AS after_120_day,\n"
+						+ "SUM( CASE WHEN t10.last_6_month > 0 THEN t10.after_150_day ELSE 0 END ) AS after_150_day,\n"
+						+ "SUM( CASE WHEN t10.last_6_month > 0 THEN t10.after_180_day ELSE 0 END ) AS after_180_day,\n"
 						+ "SUM( t10.all_last_6_month ) AS all_last_6_month,\n"
 						+ "SUM( CASE WHEN t10.all_last_6_month > 0 THEN t10.all_after_30_day ELSE 0 END ) AS all_after_30_day,\n"
-						+ "SUM( t10.all_after_60_day ) AS all_after_60_day,\n"
-						+ "SUM( t10.all_after_90_day ) AS all_after_90_day,\n"
-						+ "SUM( t10.all_after_120_day ) AS all_after_120_day,\n"
-						+ "SUM( t10.all_after_150_day ) AS all_after_150_day,\n"
-						+ "SUM( t10.all_after_180_day ) AS all_after_180_day\n"
+						+ "SUM( CASE WHEN t10.all_last_6_month > 0 THEN t10.all_after_60_day ELSE 0 END ) AS all_after_60_day,\n"
+						+ "SUM( CASE WHEN t10.all_last_6_month > 0 THEN t10.all_after_90_day ELSE 0 END ) AS all_after_90_day,\n"
+						+ "SUM( CASE WHEN t10.all_last_6_month > 0 THEN t10.all_after_120_day ELSE 0 END ) AS all_after_120_day,\n"
+						+ "SUM( CASE WHEN t10.all_last_6_month > 0 THEN t10.all_after_150_day ELSE 0 END ) AS all_after_150_day,\n"
+						+ "SUM( CASE WHEN t10.all_last_6_month > 0 THEN t10.all_after_180_day ELSE 0 END ) AS all_after_180_day\n"
 					+ "FROM\n"
 					+ "(\n"
 						+ "SELECT\n"
