@@ -93,8 +93,13 @@ public class Report {
 			try (val evaluation = getWorkbook(ReportType.EVALUATION)) {
 				member();
 				takeOut();
-				WorkbookUtils.save(evaluation, new File(Job.getCurrent().getOutputFile()));
+				save();
 			}
+		}
+
+		void save() throws Exception {
+			val dir = new File(Job.getCurrent().getOutputDir());
+			WorkbookUtils.save(getWorkbook(ReportType.EVALUATION), new File(dir, "評価.xlsx"));
 		}
 
 		void member() throws Exception {
