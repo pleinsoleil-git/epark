@@ -63,6 +63,7 @@ public class TakeOut {
 		}
 
 		public void execute() throws Exception {
+			log.info(String.format("%s出力", getSheet().getSheetName()));
 			delete();
 			insert();
 			evaluation();

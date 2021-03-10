@@ -73,7 +73,7 @@ public class Report {
 
 		void output() throws Exception {
 			try (val book = getWorkbook()) {
-				//member();
+				member();
 				takeOut();
 				WorkbookUtils.save(book, new File(Job.getCurrent().getOutputFile()));
 			}
