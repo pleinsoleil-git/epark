@@ -56,7 +56,7 @@ public class Member {
 		public Sheet getSheet() {
 			if (m_sheet == null) {
 				val book = Report.getCurrent().getWorkbook();
-				m_sheet = book.getSheet("EPARK会員情報");
+				m_sheet = book.getSheet("会員情報");
 			}
 
 			return m_sheet;
