@@ -66,6 +66,7 @@ public class Member {
 			log.info(String.format("%s出力", getSheet().getSheetName()));
 			delete();
 			insert();
+			evaluation();
 		}
 
 		void evaluation() throws Exception {
