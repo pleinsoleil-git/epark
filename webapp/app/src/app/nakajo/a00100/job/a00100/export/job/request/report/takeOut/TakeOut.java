@@ -65,10 +65,10 @@ public class TakeOut {
 		public void execute() throws Exception {
 			delete();
 			insert();
-			//all();
+			//evaluation();
 		}
 
-		void all() throws Exception {
+		void evaluation() throws Exception {
 			Evaluation.getInstance().execute();
 		}
 
@@ -138,7 +138,7 @@ public class TakeOut {
 						+ "SUM( t10.after_150_day ) AS after_150_day,\n"
 						+ "SUM( t10.after_180_day ) AS after_180_day,\n"
 						+ "SUM( t10.all_last_6_month ) AS all_last_6_month,\n"
-						+ "SUM( t10.all_after_30_day ) AS all_after_30_day,\n"
+						+ "SUM( CASE WHEN t10.all_last_6_month > 0 THEN t10.all_after_30_day ELSE 0 END ) AS all_after_30_day,\n"
 						+ "SUM( t10.all_after_60_day ) AS all_after_60_day,\n"
 						+ "SUM( t10.all_after_90_day ) AS all_after_90_day,\n"
 						+ "SUM( t10.all_after_120_day ) AS all_after_120_day,\n"
