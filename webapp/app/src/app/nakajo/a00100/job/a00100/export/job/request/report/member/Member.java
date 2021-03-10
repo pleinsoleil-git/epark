@@ -3,10 +3,7 @@ package app.nakajo.a00100.job.a00100.export.job.request.report.member;
 import java.util.ArrayList;
 import java.util.Collection;
 
-import org.apache.poi.ss.usermodel.Sheet;
-
 import app.nakajo.a00100.job.a00100.export.job.Job;
-import app.nakajo.a00100.job.a00100.export.job.request.report.Report;
 import common.jdbc.JDBCParameter;
 import common.jdbc.JDBCUtils;
 import lombok.Data;
@@ -51,19 +48,8 @@ public class Member {
 
 	@Data
 	public static class _Current {
-		Sheet m_sheet;
-
-		public Sheet getSheet() {
-			if (m_sheet == null) {
-				val book = Report.getCurrent().getWorkbook();
-				m_sheet = book.getSheet("会員情報");
-			}
-
-			return m_sheet;
-		}
-
 		public void execute() throws Exception {
-			log.info(String.format("%s出力", getSheet().getSheetName()));
+			log.info("会員情報出力");
 			delete();
 			insert();
 			evaluation();

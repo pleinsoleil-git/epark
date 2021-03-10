@@ -6,9 +6,12 @@ import java.util.HashMap;
 
 import org.apache.commons.dbutils.handlers.ArrayListHandler;
 import org.apache.poi.ss.usermodel.CellStyle;
+import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.util.CellReference;
 import org.apache.poi.ss.util.CellUtil;
 
+import app.nakajo.a00100.job.a00100.export.job.request.report.Report;
+import app.nakajo.a00100.job.a00100.export.job.request.report.ReportType;
 import common.jdbc.JDBCUtils;
 import common.poi.CellUtils;
 import lombok.Data;
@@ -53,13 +56,23 @@ class Evaluation {
 	static class _Current {
 		static final int FIRST_ROW_NUM = 1;
 		static final int FIRST_CELL_NUM = CellReference.convertColStringToIndex("A");
+		Sheet m_sheet;
+
+		public Sheet getSheet() {
+			if (m_sheet == null) {
+				val book = Report.getCurrent().getWorkbook(ReportType.EVALUATION);
+				m_sheet = book.getSheet("会員情報");
+			}
+
+			return m_sheet;
+		}
 
 		void execute() throws Exception {
 			output();
 		}
 
 		void output() throws Exception {
-			val sheet = Member.getCurrent().getSheet();
+			val sheet = getSheet();
 			int rowNum = FIRST_ROW_NUM;
 			val styles = new HashMap<Integer, CellStyle>() {
 				{

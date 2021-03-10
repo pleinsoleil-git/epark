@@ -53,18 +53,36 @@ public class Report {
 
 	@Data
 	public static class _Current {
-		Workbook m_workbook;
+		Workbook m_all;
+		Workbook m_evaluation;
 
-		public Workbook getWorkbook() {
-			if (m_workbook == null) {
-				try (val rs = getClass().getResourceAsStream("Report.xlsx")) {
-					m_workbook = WorkbookFactory.create(rs);
-				} catch (Exception e) {
-					log.error("", e);
+		public Workbook getWorkbook(final ReportType reportType) {
+			try {
+				switch (reportType) {
+				case EVALUATION:
+					if (m_evaluation == null) {
+						try (val rs = getClass().getResourceAsStream("Evaluation.xlsx")) {
+							m_evaluation = WorkbookFactory.create(rs);
+						}
+					}
+
+					return m_evaluation;
+				case ALL:
+					if (m_all == null) {
+						try (val rs = getClass().getResourceAsStream("All.xlsx")) {
+							m_all = WorkbookFactory.create(rs);
+						}
+					}
+
+					return m_all;
+				default:
+					throw new IllegalArgumentException();
 				}
+			} catch (Exception e) {
+				log.error("", e);
 			}
 
-			return m_workbook;
+			return null;
 		}
 
 		public void execute() throws Exception {
@@ -72,10 +90,10 @@ public class Report {
 		}
 
 		void output() throws Exception {
-			try (val book = getWorkbook()) {
+			try (val evaluation = getWorkbook(ReportType.EVALUATION)) {
 				member();
 				takeOut();
-				WorkbookUtils.save(book, new File(Job.getCurrent().getOutputFile()));
+				WorkbookUtils.save(evaluation, new File(Job.getCurrent().getOutputFile()));
 			}
 		}
 
