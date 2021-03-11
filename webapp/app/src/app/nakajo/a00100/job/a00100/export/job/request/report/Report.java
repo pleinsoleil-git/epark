@@ -90,7 +90,8 @@ public class Report {
 		}
 
 		void output() throws Exception {
-			try (val evaluation = getWorkbook(ReportType.EVALUATION)) {
+			try (val all = getWorkbook(ReportType.ALL);
+					val evaluation = getWorkbook(ReportType.EVALUATION)) {
 				member();
 				takeOut();
 				save();
@@ -100,6 +101,7 @@ public class Report {
 		void save() throws Exception {
 			val dir = new File(Job.getCurrent().getOutputDir());
 			WorkbookUtils.save(getWorkbook(ReportType.EVALUATION), new File(dir, "評価.xlsx"));
+			WorkbookUtils.save(getWorkbook(ReportType.ALL), new File(dir, "すべて.xlsx"));
 		}
 
 		void member() throws Exception {

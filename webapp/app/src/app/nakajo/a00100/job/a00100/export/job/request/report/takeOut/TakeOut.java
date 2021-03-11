@@ -53,10 +53,15 @@ public class TakeOut {
 			delete();
 			insert();
 			evaluation();
+			all();
 		}
 
 		void evaluation() throws Exception {
 			Evaluation.getInstance().execute();
+		}
+
+		void all() throws Exception {
+			All.getInstance().execute();
 		}
 
 		void delete() throws Exception {
