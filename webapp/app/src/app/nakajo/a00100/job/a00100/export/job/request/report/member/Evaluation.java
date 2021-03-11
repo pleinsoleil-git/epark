@@ -168,7 +168,12 @@ class Evaluation {
 				+ "FROM tmp_repeat_report AS t10\n"
 			+ ") AS t10\n"
 			+ "ORDER BY t10.data_type NULLS FIRST,\n"
-				+ "t10.evaluation,\n"
+				+ "CASE t10.evaluation\n"
+					+ "WHEN 'サイレント' THEN 100\n"
+					+ "WHEN '無回答' THEN 200\n"
+					+ "WHEN '満足' THEN 300\n"
+					+ "WHEN '不満足' THEN 400\n"
+				+ "END,\n"
 				+ "t10.usage_month\n";
 
 			val rsh = new ArrayListHandler();
