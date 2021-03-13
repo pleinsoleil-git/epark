@@ -167,7 +167,7 @@ class Evaluation {
 						+ "+ COALESCE( LAG( t10.all_after_60_day, 2 ) OVER ( PARTITION BY t10.evaluation ORDER BY t10.usage_month ), 0 ) AS after_month\n"
 				+ "FROM tmp_repeat_report AS t10\n"
 			+ ") AS t10\n"
-			+ "ORDER BY t10.data_type NULLS FIRST,\n"
+			+ "ORDER BY\n"
 				+ "CASE t10.evaluation\n"
 					+ "WHEN 'サイレント' THEN 100\n"
 					+ "WHEN '無回答' THEN 200\n"
